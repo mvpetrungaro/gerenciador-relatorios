@@ -1,0 +1,124 @@
+{
+  "pesquisas": [
+    {
+      "id": "ca2017",
+      "nome": "Censo Agropecuário 2017"
+    },
+    {
+      "id": "cd2022",
+      "nome": "Censo Demográfico 2022"
+    },
+    {
+      "id": "pnad2022",
+      "nome": "PNAD 2022"
+    },
+    {
+      "id": "rc2022",
+      "nome": "Registro Civil 2022"
+    }
+  ],
+  "projetos": [
+    {
+      "id": 2261,
+      "nome": "Relatórios do Censo Agropecuário 2017",
+      "idPesquisa": "ca2017"
+    },
+    {
+      "id": 8884,
+      "nome": "Relatórios do Censo Demográfico 2022",
+      "idPesquisa": "cd2022"
+    },
+    {
+      "id": 2301,
+      "nome": "Relatórios da PNAD 2022",
+      "idPesquisa": "pnad2022"
+    },
+    {
+      "id": 3601,
+      "nome": "Relatórios do Registro Civil 2022",
+      "idPesquisa": "rc2022"
+    }
+  ],
+  "tabelas": [
+    {
+      "id": 207162,
+      "nome": "Relatório 1 do Censo Agropecuário 2017",
+      "idProjeto": 2261
+    },
+    {
+      "id": 663767,
+      "nome": "Relatório 2 do Censo Agropecuário 2017",
+      "idProjeto": 2261
+    },
+    {
+      "id": 762805,
+      "nome": "Relatório 3 do Censo Agropecuário 2017",
+      "idProjeto": 2261
+    },
+    {
+      "id": 856194,
+      "nome": "Relatório 1",
+      "titulo": "Informações agregadas sobre taxas e indicadores importantes",
+      "arquivo": "INFORMACOES_AGREGADAS_SOBRE_TAXAS_E_INDICADORES_IMPORTANTES.html",
+      "idProjeto": 8884
+    },
+    {
+      "id": 775193,
+      "nome": "Relatório 2",
+      "titulo": "Relatório Temático: Cor ou Raça",
+      "arquivo": "RELATORIO_TEMATICO_-_COR_OU_RACA.html",
+      "idProjeto": 8884
+    },
+    {
+      "id": 940650,
+      "nome": "Relatório 3",
+      "titulo": "Relatório Temático: Rendimento Domiciliar",
+      "arquivo": "RELATORIO_TEMATICO_-_RENDIMENTO_DOMICILIAR.html",
+      "idProjeto": 8884
+    },
+    {
+      "id": 545492,
+      "nome": "Relatório 4",
+      "titulo": "Relatório Temático: Rendimento Pessoal",
+      "arquivo": "RELATORIO_TEMATICO_-_RENDIMENTO_PESSOAL.html",
+      "idProjeto": 8884
+    },
+    {
+      "id": 335719,
+      "nome": "Relatório 5",
+      "titulo": "Totais de Domicílios e Pessoas",
+      "arquivo": "TOTAIS_DE_DOMICILIOS_E_PESSOAS.html",
+      "idProjeto": 8884
+    },
+    {
+      "id": 26863,
+      "nome": "Relatório 1 da PNAD 2022",
+      "idProjeto": 2301
+    },
+    {
+      "id": 105701,
+      "nome": "Relatório 2 da PNAD 2022",
+      "idProjeto": 2301
+    },
+    {
+      "id": 119257,
+      "nome": "Relatório 3 da PNAD 2022",
+      "idProjeto": 2301
+    },
+    {
+      "id": 350941,
+      "nome": "Relatório 1 do Registro Civil 2022",
+      "idProjeto": 3601
+    },
+    {
+      "id": 838498,
+      "nome": "Relatório 2 do Registro Civil 2022",
+      "idProjeto": 3601
+    },
+    {
+      "id": 648444,
+      "nome": "Relatório 3 do Registro Civil 2022",
+      "idProjeto": 3601
+    }
+  ]
+}

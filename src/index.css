@@ -1,0 +1,34 @@
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
+:root {
+  --ibge-color: #1351b4;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.bg-ibge {
+  background-color: var(--ibge-color);
+}
+
+.p-tree {
+  border: 0;
+  padding: 0;
+}
+
+.p-treenode-content, .p-tree-toggler {
+  box-shadow: none !important;
+}
