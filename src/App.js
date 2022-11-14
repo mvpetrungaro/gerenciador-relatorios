@@ -7,6 +7,7 @@ import Header from './components/Header'
 import HomePage from './pages/HomePage'
 import PesquisaPage from './pages/PesquisaPage'
 import ProjetoPage from './pages/ProjetoPage'
+import ExecucaoPage from './pages/ExecucaoPage'
 
 const themes = {
   light: {
@@ -56,7 +57,7 @@ export function App() {
         <Header theme={selectedTheme} onThemeChange={onThemeChange} />
         <main className="flex-1 surface-ground relative">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<ExecucaoPage />} />
             <Route path="/pesquisas/:idPesquisa" element={<PesquisaPage />} />
             <Route
               path="/pesquisas/:idPesquisa/projetos/:idProjeto"
