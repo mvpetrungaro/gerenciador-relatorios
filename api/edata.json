@@ -2,19 +2,119 @@
   "pesquisas": [
     {
       "id": "ca2017",
-      "nome": "Censo Agropecuário 2017"
+      "nome": "Censo Agropecuário 2017",
+      "territorios": [
+        {
+          "nome": "País",
+          "cardinalidade": 1
+        },
+        {
+          "nome": "Grandes Regiões",
+          "cardinalidade": 5
+        },
+        {
+          "nome": "Unidades da Federação",
+          "cardinalidade": 27
+        },
+        {
+          "nome": "Municípios",
+          "cardinalidade": 5570
+        },
+        {
+          "nome": "Setores",
+          "cardinalidade": 400000
+        }
+      ]
     },
     {
       "id": "cd2022",
-      "nome": "Censo Demográfico 2022"
+      "nome": "Censo Demográfico 2022",
+      "niveisTerritoriais": [
+        {
+          "nome": "País",
+          "cardinalidade": 1
+        },
+        {
+          "nome": "Grandes Regiões",
+          "cardinalidade": 5
+        },
+        {
+          "nome": "Unidades da Federação",
+          "cardinalidade": 27
+        },
+        {
+          "nome": "Municípios",
+          "cardinalidade": 5570
+        },
+        {
+          "nome": "Setores",
+          "cardinalidade": 400000
+        }
+      ],
+      "dados": [
+        {
+          "sigla": "EXP",
+          "nome": "Sem expansão"
+        }
+      ]
     },
     {
-      "id": "pnad2022",
-      "nome": "PNAD 2022"
+      "id": "pense2019",
+      "nome": "PeNSE 2019",
+      "niveisTerritoriais": [
+        {
+          "nome": "País",
+          "cardinalidade": 1
+        },
+        {
+          "nome": "Grandes Regiões",
+          "cardinalidade": 5
+        },
+        {
+          "nome": "Unidades da Federação",
+          "cardinalidade": 27
+        },
+        {
+          "nome": "Municípios",
+          "cardinalidade": 5570
+        }
+      ],
+      "dados": [
+        {
+          "sigla": "EXP",
+          "nome": "Sem expansão"
+        },
+        {
+          "sigla": "CV",
+          "nome": "Coeficiente de variação"
+        },
+        {
+          "sigla": "IC",
+          "nome": "Intervalo de confiança"
+        }
+      ]
     },
     {
       "id": "rc2022",
-      "nome": "Registro Civil 2022"
+      "nome": "Registro Civil 2022",
+      "niveisTerritoriais": [
+        {
+          "nome": "País",
+          "cardinalidade": 1
+        },
+        {
+          "nome": "Grandes Regiões",
+          "cardinalidade": 5
+        },
+        {
+          "nome": "Unidades da Federação",
+          "cardinalidade": 27
+        },
+        {
+          "nome": "Municípios",
+          "cardinalidade": 5570
+        }
+      ]
     }
   ],
   "projetos": [
@@ -30,8 +130,8 @@
     },
     {
       "id": 2301,
-      "nome": "Relatórios da PNAD 2022",
-      "idPesquisa": "pnad2022"
+      "nome": "Relatórios da PeNSE 2019",
+      "idPesquisa": "pense2019"
     },
     {
       "id": 3601,
@@ -59,6 +159,7 @@
       "id": 856194,
       "nome": "Relatório 1",
       "titulo": "Informações agregadas sobre taxas e indicadores importantes",
+      "indicadoras": false,
       "arquivo": "INFORMACOES_AGREGADAS_SOBRE_TAXAS_E_INDICADORES_IMPORTANTES.html",
       "idProjeto": 8884
     },
@@ -66,6 +167,7 @@
       "id": 775193,
       "nome": "Relatório 2",
       "titulo": "Relatório Temático: Cor ou Raça",
+      "indicadoras": false,
       "arquivo": "RELATORIO_TEMATICO_-_COR_OU_RACA.html",
       "idProjeto": 8884
     },
@@ -73,6 +175,7 @@
       "id": 940650,
       "nome": "Relatório 3",
       "titulo": "Relatório Temático: Rendimento Domiciliar",
+      "indicadoras": false,
       "arquivo": "RELATORIO_TEMATICO_-_RENDIMENTO_DOMICILIAR.html",
       "idProjeto": 8884
     },
@@ -80,6 +183,7 @@
       "id": 545492,
       "nome": "Relatório 4",
       "titulo": "Relatório Temático: Rendimento Pessoal",
+      "indicadoras": false,
       "arquivo": "RELATORIO_TEMATICO_-_RENDIMENTO_PESSOAL.html",
       "idProjeto": 8884
     },
@@ -87,22 +191,31 @@
       "id": 335719,
       "nome": "Relatório 5",
       "titulo": "Totais de Domicílios e Pessoas",
+      "indicadoras": false,
       "arquivo": "TOTAIS_DE_DOMICILIOS_E_PESSOAS.html",
       "idProjeto": 8884
     },
     {
+      "id": 264216,
+      "nome": "Relatório 6",
+      "titulo": "Horário das Entrevistas (11-2022)",
+      "indicadoras": true,
+      "arquivo": "HORARIOS_DAS_ENTREVISTAS_-_(11-2022).html",
+      "idProjeto": 8884
+    },
+    {
       "id": 26863,
-      "nome": "Relatório 1 da PNAD 2022",
+      "nome": "Relatório 1 da PeNSE 2019",
       "idProjeto": 2301
     },
     {
       "id": 105701,
-      "nome": "Relatório 2 da PNAD 2022",
+      "nome": "Relatório 2 da PeNSE 2019",
       "idProjeto": 2301
     },
     {
       "id": 119257,
-      "nome": "Relatório 3 da PNAD 2022",
+      "nome": "Relatório 3 da PeNSE 2019",
       "idProjeto": 2301
     },
     {

@@ -9,7 +9,7 @@ import {
 } from '../../services/tabela.service'
 import Loading from '../Loading'
 
-export default function ProjetoPage({ projeto, onTabelasSelect }) {
+export default function TabelasStep({ projeto, onTabelasSelect }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [tabelas, setTabelas] = useState([])
@@ -91,7 +91,11 @@ export default function ProjetoPage({ projeto, onTabelasSelect }) {
             </DataTable>
 
             <div className="col-12 text-right">
-              <Button value="Avançar" disabled={!tabelasSelecionadas?.length}>
+              <Button
+                value="Avançar"
+                disabled={!tabelasSelecionadas?.length}
+                onClick={() => onTabelasSelect(tabelasSelecionadas)}
+              >
                 Avançar
               </Button>
             </div>
