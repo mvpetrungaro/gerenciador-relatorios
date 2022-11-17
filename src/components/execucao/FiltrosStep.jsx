@@ -162,7 +162,7 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
                 placeholder="Selecione o formato do arquivo"
                 className="w-12"
               />
-              <label htmlFor="dropdownFormatoArquivo">Formato do Arquivo</label>
+              <label htmlFor="dropdownFormatoArquivo">Formato do arquivo</label>
             </span>
           </div>
 
