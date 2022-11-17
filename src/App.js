@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import HomePage from './pages/HomePage'
-import PesquisaPage from './pages/PesquisaPage'
-import ProjetoPage from './pages/ProjetoPage'
 import ExecucaoPage from './pages/ExecucaoPage'
 
 const themes = {
@@ -58,11 +56,6 @@ export function App() {
         <main className="flex-1 surface-ground relative">
           <Routes>
             <Route path="/" element={<ExecucaoPage />} />
-            <Route path="/pesquisas/:idPesquisa" element={<PesquisaPage />} />
-            <Route
-              path="/pesquisas/:idPesquisa/projetos/:idProjeto"
-              element={<ProjetoPage />}
-            />
           </Routes>
         </main>
         <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1">

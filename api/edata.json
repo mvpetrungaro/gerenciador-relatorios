@@ -3,7 +3,7 @@
     {
       "id": "ca2017",
       "nome": "Censo Agropecuário 2017",
-      "niveisTerritoriais": [
+      "territorios": [
         {
           "nome": "País",
           "cardinalidade": 1
@@ -29,7 +29,7 @@
     {
       "id": "cd2022",
       "nome": "Censo Demográfico 2022",
-      "niveisTerritoriais": [
+      "territorios": [
         {
           "nome": "País",
           "cardinalidade": 1
@@ -73,7 +73,7 @@
     {
       "id": "pense2019",
       "nome": "PeNSE 2019",
-      "niveisTerritoriais": [
+      "territorios": [
         {
           "nome": "País",
           "cardinalidade": 1
@@ -97,7 +97,7 @@
     {
       "id": "rc2022",
       "nome": "Registro Civil 2022",
-      "niveisTerritoriais": [
+      "territorios": [
         {
           "nome": "País",
           "cardinalidade": 1
@@ -285,20 +285,7 @@
     },
     {
       "id": "arquivos",
-      "formatos": [
-        {
-          "id": "CSV",
-          "nome": "CSV"
-        },
-        {
-          "id": "HTML",
-          "nome": "HTML"
-        },
-        {
-          "id": "XLSX",
-          "nome": "XLSX"
-        }
-      ]
+      "formatos": ["CSV", "HTML", "XLSX"]
     }
   ]
 }
