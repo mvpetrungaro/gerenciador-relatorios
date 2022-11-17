@@ -47,7 +47,7 @@ export default function ExecucaoPage() {
   }
 
   return (
-    <div style={{ minWidth: 300 }}>
+    <div style={{ minWidth: 400 }}>
       <Steps
         activeIndex={stepsActiveIndex}
         indexChangeHandler={(index) => setStepsActiveIndex(index)}

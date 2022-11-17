@@ -3,7 +3,7 @@
     {
       "id": "ca2017",
       "nome": "Censo Agropecuário 2017",
-      "territorios": [
+      "niveisTerritoriais": [
         {
           "nome": "País",
           "cardinalidade": 1
@@ -51,10 +51,22 @@
           "cardinalidade": 400000
         }
       ],
-      "dados": [
+      "tiposDado": ["EXP"],
+      "variaveis": [
         {
-          "sigla": "EXP",
-          "nome": "Sem expansão"
+          "id": 342344,
+          "codigo": "V342344",
+          "nome": "Cor ou Raça"
+        },
+        {
+          "id": 454345,
+          "codigo": "V454345",
+          "nome": "Sexo"
+        },
+        {
+          "id": 154826,
+          "codigo": "V154826",
+          "nome": "Idade"
         }
       ]
     },
@@ -79,20 +91,8 @@
           "cardinalidade": 5570
         }
       ],
-      "dados": [
-        {
-          "sigla": "EXP",
-          "nome": "Sem expansão"
-        },
-        {
-          "sigla": "CV",
-          "nome": "Coeficiente de variação"
-        },
-        {
-          "sigla": "IC",
-          "nome": "Intervalo de confiança"
-        }
-      ]
+      "tiposDado": ["EXP", "CV", "IC"],
+      "formatosDado": ["PR", "PL"]
     },
     {
       "id": "rc2022",
@@ -232,6 +232,73 @@
       "id": 648444,
       "nome": "Relatório 3 do Registro Civil 2022",
       "idProjeto": 3601
+    }
+  ],
+  "configuracoes": [
+    {
+      "id": "geografias",
+      "posicoes": [
+        {
+          "id": "Cabeçalho",
+          "nome": "Cabeçalho"
+        },
+        {
+          "id": "Linha",
+          "nome": "Linha"
+        },
+        {
+          "id": "Cabeçalho/Linha",
+          "nome": "Cabeçalho/Linha"
+        },
+        {
+          "id": "Auto",
+          "nome": "Automática"
+        }
+      ]
+    },
+    {
+      "id": "dados",
+      "tiposDado": [
+        {
+          "id": "EXP",
+          "nome": "Sem Expansão"
+        },
+        {
+          "id": "CV",
+          "nome": "Coeficiente de Variação"
+        },
+        {
+          "id": "IC",
+          "nome": "Intervalo de Confiança"
+        }
+      ],
+      "formatosDado": [
+        {
+          "id": "PR",
+          "nome": "% de Proporção (Relativo)"
+        },
+        {
+          "id": "PL",
+          "nome": "% de Distribuição (Linha)"
+        }
+      ]
+    },
+    {
+      "id": "arquivos",
+      "formatos": [
+        {
+          "id": "CSV",
+          "nome": "CSV"
+        },
+        {
+          "id": "HTML",
+          "nome": "HTML"
+        },
+        {
+          "id": "XLSX",
+          "nome": "XLSX"
+        }
+      ]
     }
   ]
 }
