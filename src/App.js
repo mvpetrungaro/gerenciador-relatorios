@@ -4,8 +4,8 @@ import 'primeflex/primeflex.css'
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
-import HomePage from './pages/HomePage'
 import ExecucaoPage from './pages/ExecucaoPage'
+import AcompanhamentoPage from './pages/AcompanhamentoPage'
 
 const themes = {
   light: {
@@ -56,6 +56,10 @@ export function App() {
         <main className="flex-1 surface-ground relative">
           <Routes>
             <Route path="/" element={<ExecucaoPage />} />
+            <Route
+              path="/acompanhamento/:idSolicitacao"
+              element={<AcompanhamentoPage />}
+            />
           </Routes>
         </main>
         <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1">

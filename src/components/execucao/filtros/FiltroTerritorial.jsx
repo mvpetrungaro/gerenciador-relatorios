@@ -52,7 +52,7 @@ export default function FiltroTerritorial({
 
   return (
     <fieldset className="p-3 text-left">
-      <legend>Territórios</legend>
+      <legend>Territórios *</legend>
 
       {[...Array(territoriosCount).keys()].map((i) => (
         <div key={i} className="mt-5">
@@ -68,7 +68,7 @@ export default function FiltroTerritorial({
                 className="w-12"
               />
               <label htmlFor={`dropdownTerritorio${i}`}>
-                Território {territoriosCount > 1 ? i + 1 : ''}
+                Território {territoriosCount > 1 ? i + 1 : ''} *
               </label>
             </span>
 
@@ -83,7 +83,7 @@ export default function FiltroTerritorial({
                 className="w-12"
               />
               <label htmlFor={`dropdownPosicao${i}`}>
-                Posição {territoriosCount > 1 ? i + 1 : ''}
+                Posição {territoriosCount > 1 ? i + 1 : ''} *
               </label>
             </span>
           </div>

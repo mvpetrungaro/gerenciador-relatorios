@@ -92,7 +92,6 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
 
             <div className="col-12 text-right">
               <Button
-                value="Avançar"
                 disabled={!tabelasSelecionadas?.length}
                 onClick={() => onTabelasSelect(tabelasSelecionadas)}
               >

@@ -1,16 +1,21 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Steps from '../components/Steps'
 import Step from '../components/Step'
 import PesquisasStep from '../components/execucao/PesquisasStep'
 import ProjetosStep from '../components/execucao/ProjetosStep'
 import TabelasStep from '../components/execucao/TabelasStep'
 import FiltrosStep from '../components/execucao/FiltrosStep'
+import ConfirmacaoStep from '../components/execucao/ConfirmacaoStep'
+import { solicitarRelatorios } from '../services/relatorio.service'
 
 export default function ExecucaoPage() {
+  const navigate = useNavigate()
   const [stepsActiveIndex, setStepsActiveIndex] = useState(0)
   const [pesquisa, setPesquisa] = useState(null)
   const [projeto, setProjeto] = useState(null)
   const [tabelas, setTabelas] = useState(null)
+  const [filtros, setFiltros] = useState(null)
 
   function onStepPesquisasSelect() {
     setPesquisa(null)
@@ -42,8 +47,39 @@ export default function ExecucaoPage() {
     setStepsActiveIndex(3)
   }
 
-  function onFiltrosSelect() {
+  function onFiltrosSelect(filtros) {
+    setFiltros(filtros)
     setStepsActiveIndex(4)
+  }
+
+  async function onConfirm() {
+    let solicitacao = {
+      idProjetoEdata: projeto.id,
+      idsTabelasEdata: tabelas.map((t) => t.id),
+      territorios: filtros.territorios.map((t) => ({
+        idTerritorioEdata: t.territorio.id,
+        posicao: t.posicao.id,
+      })),
+      tiposDado: filtros.tiposDado.map((td) => td.id),
+      formatosDado: filtros.formatosDado?.map((fd) => fd.id),
+      formatoArquivo: filtros.formatoArquivo,
+      paginacao: filtros.paginacao?.codigo,
+    }
+
+    try {
+      solicitacao = await solicitarRelatorios(solicitacao)
+
+      if (!solicitacao?.id) {
+        throw Error(
+          'Erro ao solicitar os relatórios, tente novamente mais tarde'
+        )
+      }
+
+      navigate(`/acompanhamento/${solicitacao.id}`)
+    } catch (err) {
+      alert(err.message ?? err)
+      console.log(err)
+    }
   }
 
   return (
@@ -68,7 +104,14 @@ export default function ExecucaoPage() {
             onFiltrosSelect={onFiltrosSelect}
           />
         </Step>
-        <Step label="Confirmação"></Step>
+        <Step label="Confirmação">
+          <ConfirmacaoStep
+            projeto={projeto}
+            tabelas={tabelas}
+            filtros={filtros}
+            onConfirm={onConfirm}
+          />
+        </Step>
       </Steps>
     </div>
   )

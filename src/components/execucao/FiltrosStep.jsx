@@ -94,6 +94,8 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
   }, [tiposDadoSelected])
 
   function buscarVariaveisPaginacao(e) {
+    if (!pesquisa.variaveis?.length) return
+
     const valorBusca = e.query.toLowerCase()
     const variaveisPaginacao = pesquisa.variaveis.filter(
       (v) =>
@@ -102,6 +104,20 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
     )
 
     setVariaveisPaginacao(variaveisPaginacao)
+  }
+
+  function validFiltros() {
+    const validFiltroTerritorial = () => {
+      if (!territoriosSelected?.length || territoriosSelected.some((t) => !t))
+        return false
+      if (!posicoesSelected?.length || posicoesSelected.some((p) => !p))
+        return false
+      return true
+    }
+
+    const validFormatoArquivo = !!formatoArquivoSelected
+
+    return validFiltroTerritorial() && validFormatoArquivo
   }
 
   if (error) {
@@ -162,7 +178,9 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
                 placeholder="Selecione o formato do arquivo"
                 className="w-12"
               />
-              <label htmlFor="dropdownFormatoArquivo">Formato do arquivo</label>
+              <label htmlFor="dropdownFormatoArquivo">
+                Formato do arquivo *
+              </label>
             </span>
           </div>
 
@@ -193,7 +211,23 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
           </div>
 
           <div className="m-auto p-3 text-right">
-            <Button value="Avançar">Avançar</Button>
+            <Button
+              disabled={!validFiltros()}
+              onClick={() =>
+                onFiltrosSelect({
+                  territorios: territoriosSelected.map((_, i) => ({
+                    territorio: territoriosSelected[i],
+                    posicao: posicoesSelected[i],
+                  })),
+                  tiposDado: tiposDadoSelected,
+                  formatosDado: formatosDadoSelected,
+                  formatoArquivo: formatoArquivoSelected,
+                  paginacao,
+                })
+              }
+            >
+              Avançar
+            </Button>
           </div>
         </div>
       </>

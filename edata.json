@@ -1,26 +1,40 @@
 {
+  "usuarios": [
+    {
+      "id": 1,
+      "login": "marcos.petrungaro",
+      "nome": "Marcos Petrungaro",
+      "pesquisas": ["ca2017", "cd2022", "pense2019", "rc2022"],
+      "projetos": [2261, 2301, 3601, 8884]
+    }
+  ],
   "pesquisas": [
     {
       "id": "ca2017",
       "nome": "Censo Agropecuário 2017",
       "territorios": [
         {
+          "id": 1000,
           "nome": "País",
           "cardinalidade": 1
         },
         {
+          "id": 4002,
           "nome": "Grandes Regiões",
           "cardinalidade": 5
         },
         {
+          "id": 4003,
           "nome": "Unidades da Federação",
           "cardinalidade": 27
         },
         {
+          "id": 296403,
           "nome": "Municípios",
           "cardinalidade": 5570
         },
         {
+          "id": 845089,
           "nome": "Setores",
           "cardinalidade": 400000
         }
@@ -31,27 +45,32 @@
       "nome": "Censo Demográfico 2022",
       "territorios": [
         {
+          "id": 1000,
           "nome": "País",
           "cardinalidade": 1
         },
         {
+          "id": 4002,
           "nome": "Grandes Regiões",
           "cardinalidade": 5
         },
         {
+          "id": 4003,
           "nome": "Unidades da Federação",
           "cardinalidade": 27
         },
         {
+          "id": 296403,
           "nome": "Municípios",
           "cardinalidade": 5570
         },
         {
+          "id": 845089,
           "nome": "Setores",
           "cardinalidade": 400000
         }
       ],
-      "tiposDado": ["EXP"],
+      "tiposDado": ["SEM_EXPANSAO"],
       "variaveis": [
         {
           "id": 342344,
@@ -75,42 +94,50 @@
       "nome": "PeNSE 2019",
       "territorios": [
         {
+          "id": 1000,
           "nome": "País",
           "cardinalidade": 1
         },
         {
+          "id": 4002,
           "nome": "Grandes Regiões",
           "cardinalidade": 5
         },
         {
+          "id": 4003,
           "nome": "Unidades da Federação",
           "cardinalidade": 27
         },
         {
+          "id": 296403,
           "nome": "Municípios",
           "cardinalidade": 5570
         }
       ],
-      "tiposDado": ["EXP", "CV", "IC"],
-      "formatosDado": ["PR", "PL"]
+      "tiposDado": ["SEM_EXPANSAO", "CV", "IC"],
+      "formatosDado": ["PROPORCAO", "DISTRIBUICAO"]
     },
     {
       "id": "rc2022",
       "nome": "Registro Civil 2022",
       "territorios": [
         {
+          "id": 1000,
           "nome": "País",
           "cardinalidade": 1
         },
         {
+          "id": 4002,
           "nome": "Grandes Regiões",
           "cardinalidade": 5
         },
         {
+          "id": 4003,
           "nome": "Unidades da Federação",
           "cardinalidade": 27
         },
         {
+          "id": 296403,
           "nome": "Municípios",
           "cardinalidade": 5570
         }
@@ -125,7 +152,12 @@
     },
     {
       "id": 8884,
-      "nome": "Relatórios do Censo Demográfico 2022",
+      "nome": "Relatórios do Censo Demográfico 2022 - Amostra",
+      "idPesquisa": "cd2022"
+    },
+    {
+      "id": 8885,
+      "nome": "Relatórios do Censo Demográfico 2022 - Universo",
       "idPesquisa": "cd2022"
     },
     {
@@ -156,7 +188,7 @@
       "idProjeto": 2261
     },
     {
-      "id": 856194,
+      "id": 264216,
       "nome": "Relatório 1",
       "titulo": "Informações agregadas sobre taxas e indicadores importantes",
       "indicadoras": false,
@@ -164,7 +196,7 @@
       "idProjeto": 8884
     },
     {
-      "id": 775193,
+      "id": 335719,
       "nome": "Relatório 2",
       "titulo": "Relatório Temático: Cor ou Raça",
       "indicadoras": false,
@@ -172,7 +204,7 @@
       "idProjeto": 8884
     },
     {
-      "id": 940650,
+      "id": 545492,
       "nome": "Relatório 3",
       "titulo": "Relatório Temático: Rendimento Domiciliar",
       "indicadoras": false,
@@ -180,7 +212,7 @@
       "idProjeto": 8884
     },
     {
-      "id": 545492,
+      "id": 775193,
       "nome": "Relatório 4",
       "titulo": "Relatório Temático: Rendimento Pessoal",
       "indicadoras": false,
@@ -188,7 +220,7 @@
       "idProjeto": 8884
     },
     {
-      "id": 335719,
+      "id": 856194,
       "nome": "Relatório 5",
       "titulo": "Totais de Domicílios e Pessoas",
       "indicadoras": false,
@@ -196,7 +228,7 @@
       "idProjeto": 8884
     },
     {
-      "id": 264216,
+      "id": 940650,
       "nome": "Relatório 6",
       "titulo": "Horário das Entrevistas (11-2022)",
       "indicadoras": true,
@@ -239,19 +271,19 @@
       "id": "geografias",
       "posicoes": [
         {
-          "id": "Cabeçalho",
+          "id": "CABECALHO",
           "nome": "Cabeçalho"
         },
         {
-          "id": "Linha",
+          "id": "LINHA",
           "nome": "Linha"
         },
         {
-          "id": "Cabeçalho/Linha",
+          "id": "CABECALHO_LINHA",
           "nome": "Cabeçalho/Linha"
         },
         {
-          "id": "Auto",
+          "id": "AUTO",
           "nome": "Automática"
         }
       ]
@@ -260,7 +292,7 @@
       "id": "dados",
       "tiposDado": [
         {
-          "id": "EXP",
+          "id": "SEM_EXPANSAO",
           "nome": "Sem Expansão"
         },
         {
@@ -274,11 +306,11 @@
       ],
       "formatosDado": [
         {
-          "id": "PR",
+          "id": "PROPORCAO",
           "nome": "% de Proporção (Relativo)"
         },
         {
-          "id": "PL",
+          "id": "DISTRIBUICAO",
           "nome": "% de Distribuição (Linha)"
         }
       ]

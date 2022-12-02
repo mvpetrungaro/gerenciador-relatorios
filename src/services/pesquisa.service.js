@@ -1,9 +1,9 @@
-import api from './api.service'
+import { edata } from './api.service'
 
 export async function getPesquisa(idPesquisa) {
-  return api.get(`/pesquisas/${idPesquisa}`)
+  return edata.get(`/pesquisas/${idPesquisa}`)
 }
 
 export async function getPesquisas() {
-  return api.get('/pesquisas')
+  return edata.get('/pesquisas')
 }
