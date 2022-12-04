@@ -3,89 +3,46 @@ import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
 import { AutoComplete } from 'primereact/autocomplete'
 import {
-  getConfiguracoesArquivos,
-  getConfiguracoesDados,
-  getConfiguracoesGeografias,
-} from '../../services/configuracoes.service'
+  getFormatosArquivo,
+  getFormatosDadoByPesquisa,
+  getPosicoesByTabelas,
+  getTiposDadoByPesquisa,
+} from '../../services/filtros.service'
+import { TipoDado } from '../../models/TipoDado'
 import Loading from '../Loading'
 import FiltroTerritorial from './filtros/FiltroTerritorial'
 import FiltroTipoDado from './filtros/FiltroTipoDado'
 import FiltroFormatoDado from './filtros/FiltroFormatoDado'
 
 export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
+
   const [territoriosSelected, setTerritoriosSelected] = useState([null])
   const [posicoesSelected, setPosicoesSelected] = useState([null])
   const [tiposDadoSelected, setTiposDadoSelected] = useState([])
   const [formatosDadoSelected, setFormatosDadoSelected] = useState([])
   const [formatoArquivoSelected, setFormatoArquivoSelected] = useState(null)
-  const [variaveisPaginacao, setVariaveisPaginacao] = useState([])
   const [paginacao, setPaginacao] = useState(null)
 
   const [posicoes, setPosicoes] = useState([])
   const [tiposDado, setTiposDado] = useState([])
   const [formatosDado, setFormatosDado] = useState([])
   const [formatosArquivos, setFormatosArquivos] = useState([])
+  const [variaveisPaginacao, setVariaveisPaginacao] = useState([])
 
   const [showFormatosDado, setShowFormatosDado] = useState(false)
 
-  async function loadPosicoes(tabelas) {
-    let { posicoes } = await getConfiguracoesGeografias()
-
-    const incluirCabecalho = tabelas.every((t) => !!t.indicadoras)
-
-    if (!incluirCabecalho) {
-      posicoes = posicoes.filter((p) => p.id !== 'Cabeçalho')
-    }
-
-    setPosicoes(posicoes)
-  }
-
-  async function loadTiposFormatosDado(pesquisa) {
-    let { tiposDado, formatosDado } = await getConfiguracoesDados()
-
-    if (!pesquisa.tiposDado?.length) {
-      tiposDado = []
-    } else {
-      tiposDado = tiposDado.filter((td) => pesquisa.tiposDado.includes(td.id))
-    }
-
-    if (!pesquisa.formatosDado?.length) {
-      formatosDado = []
-    } else {
-      formatosDado = formatosDado.filter((fd) =>
-        pesquisa.formatosDado.includes(fd.id)
-      )
-    }
-
-    setTiposDado(tiposDado)
-    setFormatosDado(formatosDado)
-  }
-
-  async function loadFormatosArquivos() {
-    const { formatos } = await getConfiguracoesArquivos()
-    setFormatosArquivos(formatos)
-  }
-
   useEffect(() => {
-    ;(async () => {
-      try {
-        await Promise.all([
-          loadPosicoes(tabelas),
-          loadTiposFormatosDado(pesquisa),
-          loadFormatosArquivos(),
-        ])
-      } catch (err) {
-        setError(err.message ?? err)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    setPosicoes(getPosicoesByTabelas(tabelas))
+    setTiposDado(getTiposDadoByPesquisa(pesquisa))
+    setFormatosDado(getFormatosDadoByPesquisa(pesquisa))
+    setFormatosArquivos(getFormatosArquivo())
+
+    setLoading(false)
   }, [tabelas, pesquisa])
 
   useEffect(() => {
-    if (tiposDadoSelected.map((td) => td.id).includes('IC')) {
+    if (tiposDadoSelected.includes(TipoDado.IC.key)) {
       setShowFormatosDado(true)
     } else {
       setShowFormatosDado(false)
@@ -118,10 +75,6 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
     const validFormatoArquivo = !!formatoArquivoSelected
 
     return validFiltroTerritorial() && validFormatoArquivo
-  }
-
-  if (error) {
-    return <div className="text-center">{error}</div>
   }
 
   let content = <></>
@@ -174,6 +127,8 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
                 id="dropdownFormatoArquivo"
                 value={formatoArquivoSelected}
                 options={formatosArquivos}
+                optionLabel="value"
+                optionValue="key"
                 onChange={(e) => setFormatoArquivoSelected(e.target.value)}
                 placeholder="Selecione o formato do arquivo"
                 className="w-12"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
@@ -8,9 +8,11 @@ import {
   getTabelasByProjeto,
 } from '../../services/tabela.service'
 import Loading from '../Loading'
+import { ToastContext } from '../../contexts/ToastContext'
 
 export default function TabelasStep({ projeto, onTabelasSelect }) {
-  const [error, setError] = useState('')
+  const { showError } = useContext(ToastContext)
+
   const [loading, setLoading] = useState(true)
   const [tabelas, setTabelas] = useState([])
   const [tabelasSelecionadas, setTabelasSelecionadas] = useState([])
@@ -22,12 +24,12 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
         const tabelas = await getTabelasByProjeto(projeto.id)
         setTabelas(tabelas)
       } catch (err) {
-        setError(err.message ?? err)
+        showError(err.message ?? err)
       } finally {
         setLoading(false)
       }
     })()
-  }, [projeto])
+  }, [projeto, showError])
 
   const bodyVisualizarTabela = (tabela) => {
     return (
@@ -47,13 +49,10 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
       const tabelaHtml = await (await getArquivoTabela(tabela.arquivo)).text()
       setTabelaVisualizada({ __html: tabelaHtml })
     } catch (err) {
-      alert('Erro ao carregar a tabela')
+      showError('Falha ao visualizar a tabela')
+      console.log('Visualizar Tabela: Falha ao visualizar a tabela', err)
       setTabelaVisualizada(null)
     }
-  }
-
-  if (error) {
-    return <div className="text-center">{error}</div>
   }
 
   let content = <></>

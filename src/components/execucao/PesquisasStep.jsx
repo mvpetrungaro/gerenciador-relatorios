@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Card } from 'primereact/card'
 import { getPesquisas } from '../../services/pesquisa.service'
 import Loading from '../Loading'
+import { ToastContext } from '../../contexts/ToastContext'
 
 export default function PesquisasStep({ onPesquisaSelect }) {
-  const [error, setError] = useState('')
+  const { showError } = useContext(ToastContext)
+
   const [loading, setLoading] = useState(true)
   const [pesquisas, setPesquisas] = useState([])
 
@@ -14,18 +16,16 @@ export default function PesquisasStep({ onPesquisaSelect }) {
         const pesquisas = await getPesquisas()
         setPesquisas(pesquisas)
       } catch (err) {
-        setError(err.message ?? err)
+        showError(err.message ?? err)
       } finally {
         setLoading(false)
       }
     })()
-  }, [])
+  }, [showError])
 
   let content = <></>
 
-  if (error) {
-    content = <div className="text-center">{error}</div>
-  } else if (loading) {
+  if (loading) {
     content = <Loading />
   } else if (!pesquisas) {
     content = <div className="text-center">Nenhuma pesquisa disponível</div>
@@ -42,7 +42,7 @@ export default function PesquisasStep({ onPesquisaSelect }) {
               className="cleanButtonStyle"
               onClick={() => onPesquisaSelect(p)}
             >
-              <Card className="w-15rem h-10rem flex align-items-center justify-content-center">
+              <Card className="w-15rem h-10rem flex align-items-center justify-content-center hover:surface-hover">
                 {p.nome}
               </Card>
             </button>

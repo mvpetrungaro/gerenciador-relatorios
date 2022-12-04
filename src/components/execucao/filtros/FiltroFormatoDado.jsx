@@ -22,19 +22,19 @@ export default function FiltroFormatoDado({
       <legend>Formatos de Dado</legend>
 
       {formatosDado.map((fd, i) => (
-        <div key={fd.id} className="m-2">
+        <div key={i} className="m-2">
           <Checkbox
             inputId={`checkboxFormatoDado${i}`}
-            value={fd}
+            value={fd.key}
             onChange={onSelectFormatoDado}
-            checked={formatosDadoSelected.includes(fd)}
+            checked={formatosDadoSelected.includes(fd.key)}
             className="mr-1"
           ></Checkbox>
           <label
             htmlFor={`checkboxFormatoDado${i}`}
             className="p-checkbox-label"
           >
-            {fd.nome}
+            {fd.value}
           </label>
         </div>
       ))}

@@ -22,16 +22,16 @@ export default function FiltroTipoDado({
       <legend>Tipos de Dado</legend>
 
       {tiposDado.map((td, i) => (
-        <div key={td.id} className="m-2">
+        <div key={i} className="m-2">
           <Checkbox
             inputId={`checkboxTipoDado${i}`}
-            value={td}
+            value={td.key}
             onChange={onSelectTipoDado}
-            checked={tiposDadoSelected.includes(td)}
+            checked={tiposDadoSelected.includes(td.key)}
             className="mr-1"
           ></Checkbox>
           <label htmlFor={`checkboxTipoDado${i}`} className="p-checkbox-label">
-            {td.nome}
+            {td.value}
           </label>
         </div>
       ))}

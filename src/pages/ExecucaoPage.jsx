@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Steps from '../components/Steps'
 import Step from '../components/Step'
@@ -8,9 +8,12 @@ import TabelasStep from '../components/execucao/TabelasStep'
 import FiltrosStep from '../components/execucao/FiltrosStep'
 import ConfirmacaoStep from '../components/execucao/ConfirmacaoStep'
 import { solicitarRelatorios } from '../services/relatorio.service'
+import { ToastContext } from '../contexts/ToastContext'
 
 export default function ExecucaoPage() {
   const navigate = useNavigate()
+  const { showError } = useContext(ToastContext)
+
   const [stepsActiveIndex, setStepsActiveIndex] = useState(0)
   const [pesquisa, setPesquisa] = useState(null)
   const [projeto, setProjeto] = useState(null)
@@ -58,10 +61,10 @@ export default function ExecucaoPage() {
       idsTabelasEdata: tabelas.map((t) => t.id),
       territorios: filtros.territorios.map((t) => ({
         idTerritorioEdata: t.territorio.id,
-        posicao: t.posicao.id,
+        posicao: t.posicao,
       })),
-      tiposDado: filtros.tiposDado.map((td) => td.id),
-      formatosDado: filtros.formatosDado?.map((fd) => fd.id),
+      tiposDado: filtros.tiposDado,
+      formatosDado: filtros.formatosDado,
       formatoArquivo: filtros.formatoArquivo,
       paginacao: filtros.paginacao?.codigo,
     }
@@ -77,8 +80,7 @@ export default function ExecucaoPage() {
 
       navigate(`/acompanhamento/${solicitacao.id}`)
     } catch (err) {
-      alert(err.message ?? err)
-      console.log(err)
+      showError(err.message ?? err)
     }
   }
 

@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Card } from 'primereact/card'
 import { getProjetosByPesquisa } from '../../services/projeto.service'
 import Loading from '../Loading'
+import { ToastContext } from '../../contexts/ToastContext'
 
 export default function ProjetosStep({ pesquisa, onProjetoSelect }) {
-  const [error, setError] = useState('')
+  const { showError } = useContext(ToastContext)
+
   const [loading, setLoading] = useState(true)
   const [projetos, setProjetos] = useState([])
 
@@ -14,16 +16,12 @@ export default function ProjetosStep({ pesquisa, onProjetoSelect }) {
         const projetos = await getProjetosByPesquisa(pesquisa.id)
         setProjetos(projetos)
       } catch (err) {
-        setError(err.message ?? err)
+        showError(err.message ?? err)
       } finally {
         setLoading(false)
       }
     })()
-  }, [pesquisa])
-
-  if (error) {
-    return <div className="text-center">{error}</div>
-  }
+  }, [pesquisa, showError])
 
   let content = <></>
 
@@ -47,7 +45,7 @@ export default function ProjetosStep({ pesquisa, onProjetoSelect }) {
               className="cleanButtonStyle"
               onClick={() => onProjetoSelect(p)}
             >
-              <Card className="w-15rem h-10rem flex align-items-center justify-content-center text-center">
+              <Card className="w-15rem h-10rem flex align-items-center justify-content-center text-center hover:surface-hover">
                 {p.nome}
               </Card>
             </button>

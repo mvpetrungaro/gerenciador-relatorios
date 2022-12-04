@@ -77,7 +77,8 @@ export default function FiltroTerritorial({
                 id={`dropdownPosicao${i}`}
                 value={posicoesSelected[i]}
                 options={posicoes}
-                optionLabel="nome"
+                optionLabel="value"
+                optionValue="key"
                 onChange={(e) => onSelectPosicao(i, e.target.value)}
                 placeholder="Selecione uma posição para o território"
                 className="w-12"

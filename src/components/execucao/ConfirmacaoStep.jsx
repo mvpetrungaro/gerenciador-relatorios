@@ -1,4 +1,7 @@
 import { Button } from 'primereact/button'
+import { FormatoDado } from '../../models/FormatoDado'
+import { PosicaoTerritorio } from '../../models/PosicaoTerritorio'
+import { TipoDado } from '../../models/TipoDado'
 
 const getParamErrorMsg = (param) =>
   `Falha ao carregar ${param} dos passos anteriores`
@@ -54,9 +57,10 @@ export default function ConfirmacaoStep({
             <div className="mt-3">
               <label className="mr-2">Territórios:</label>
               <ul className="m-0">
-                {filtros.territorios.map((t) => (
-                  <li key={t.territorio.id}>
-                    {t.territorio.id} - {t.territorio.nome} ({t.posicao.nome})
+                {filtros.territorios.map((t, i) => (
+                  <li key={i}>
+                    {t.territorio.id} - {t.territorio.nome} (
+                    {PosicaoTerritorio[t.posicao].value})
                   </li>
                 ))}
               </ul>
@@ -66,8 +70,8 @@ export default function ConfirmacaoStep({
               <div className="mt-3">
                 <label className="mr-2">Tipos de Dado:</label>
                 <ul className="m-0">
-                  {filtros.tiposDado.map((td) => (
-                    <li key={td.id}>{td.nome}</li>
+                  {filtros.tiposDado.map((td, i) => (
+                    <li key={i}>{TipoDado[td].value}</li>
                   ))}
                 </ul>
               </div>
@@ -77,8 +81,8 @@ export default function ConfirmacaoStep({
               <div className="mt-3">
                 <label className="mr-2">Formatos de Dado:</label>
                 <ul className="m-0">
-                  {filtros.formatosDado.map((fd) => (
-                    <li key={fd.id}>{fd.nome}</li>
+                  {filtros.formatosDado.map((fd, i) => (
+                    <li key={i}>{FormatoDado[fd].value}</li>
                   ))}
                 </ul>
               </div>

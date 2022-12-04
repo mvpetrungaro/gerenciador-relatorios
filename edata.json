@@ -15,28 +15,23 @@
       "territorios": [
         {
           "id": 1000,
-          "nome": "País",
-          "cardinalidade": 1
+          "nome": "País"
         },
         {
           "id": 4002,
-          "nome": "Grandes Regiões",
-          "cardinalidade": 5
+          "nome": "Grandes Regiões"
         },
         {
           "id": 4003,
-          "nome": "Unidades da Federação",
-          "cardinalidade": 27
+          "nome": "Unidades da Federação"
         },
         {
           "id": 296403,
-          "nome": "Municípios",
-          "cardinalidade": 5570
+          "nome": "Municípios"
         },
         {
           "id": 845089,
-          "nome": "Setores",
-          "cardinalidade": 400000
+          "nome": "Setores"
         }
       ]
     },
@@ -46,28 +41,23 @@
       "territorios": [
         {
           "id": 1000,
-          "nome": "País",
-          "cardinalidade": 1
+          "nome": "País"
         },
         {
           "id": 4002,
-          "nome": "Grandes Regiões",
-          "cardinalidade": 5
+          "nome": "Grandes Regiões"
         },
         {
           "id": 4003,
-          "nome": "Unidades da Federação",
-          "cardinalidade": 27
+          "nome": "Unidades da Federação"
         },
         {
           "id": 296403,
-          "nome": "Municípios",
-          "cardinalidade": 5570
+          "nome": "Municípios"
         },
         {
           "id": 845089,
-          "nome": "Setores",
-          "cardinalidade": 400000
+          "nome": "Setores"
         }
       ],
       "tiposDado": ["SEM_EXPANSAO"],
@@ -95,23 +85,19 @@
       "territorios": [
         {
           "id": 1000,
-          "nome": "País",
-          "cardinalidade": 1
+          "nome": "País"
         },
         {
           "id": 4002,
-          "nome": "Grandes Regiões",
-          "cardinalidade": 5
+          "nome": "Grandes Regiões"
         },
         {
           "id": 4003,
-          "nome": "Unidades da Federação",
-          "cardinalidade": 27
+          "nome": "Unidades da Federação"
         },
         {
           "id": 296403,
-          "nome": "Municípios",
-          "cardinalidade": 5570
+          "nome": "Municípios"
         }
       ],
       "tiposDado": ["SEM_EXPANSAO", "CV", "IC"],
@@ -123,23 +109,19 @@
       "territorios": [
         {
           "id": 1000,
-          "nome": "País",
-          "cardinalidade": 1
+          "nome": "País"
         },
         {
           "id": 4002,
-          "nome": "Grandes Regiões",
-          "cardinalidade": 5
+          "nome": "Grandes Regiões"
         },
         {
           "id": 4003,
-          "nome": "Unidades da Federação",
-          "cardinalidade": 27
+          "nome": "Unidades da Federação"
         },
         {
           "id": 296403,
-          "nome": "Municípios",
-          "cardinalidade": 5570
+          "nome": "Municípios"
         }
       ]
     }
@@ -264,60 +246,6 @@
       "id": 648444,
       "nome": "Relatório 3 do Registro Civil 2022",
       "idProjeto": 3601
-    }
-  ],
-  "configuracoes": [
-    {
-      "id": "geografias",
-      "posicoes": [
-        {
-          "id": "CABECALHO",
-          "nome": "Cabeçalho"
-        },
-        {
-          "id": "LINHA",
-          "nome": "Linha"
-        },
-        {
-          "id": "CABECALHO_LINHA",
-          "nome": "Cabeçalho/Linha"
-        },
-        {
-          "id": "AUTO",
-          "nome": "Automática"
-        }
-      ]
-    },
-    {
-      "id": "dados",
-      "tiposDado": [
-        {
-          "id": "SEM_EXPANSAO",
-          "nome": "Sem Expansão"
-        },
-        {
-          "id": "CV",
-          "nome": "Coeficiente de Variação"
-        },
-        {
-          "id": "IC",
-          "nome": "Intervalo de Confiança"
-        }
-      ],
-      "formatosDado": [
-        {
-          "id": "PROPORCAO",
-          "nome": "% de Proporção (Relativo)"
-        },
-        {
-          "id": "DISTRIBUICAO",
-          "nome": "% de Distribuição (Linha)"
-        }
-      ]
-    },
-    {
-      "id": "arquivos",
-      "formatos": ["CSV", "HTML", "XLSX"]
     }
   ]
 }

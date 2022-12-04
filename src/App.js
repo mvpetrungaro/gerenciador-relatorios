@@ -1,8 +1,16 @@
 import 'primereact/resources/primereact.min.css' //core css
 import 'primeicons/primeicons.css' //icons
 import 'primeflex/primeflex.css'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Toast } from 'primereact/toast'
+import {
+  ToastContext,
+  onSuccess,
+  onInfo,
+  onWarn,
+  onError,
+} from './contexts/ToastContext'
 import Header from './components/Header'
 import ExecucaoPage from './pages/ExecucaoPage'
 import AcompanhamentoPage from './pages/AcompanhamentoPage'
@@ -25,6 +33,7 @@ if (!localStorage.getItem('selectedTheme')) {
 }
 
 export function App() {
+  const toast = useRef(null)
   const [selectedTheme, setSelectedTheme] = useState(
     themes[localStorage.getItem('selectedTheme')]
   )
@@ -51,21 +60,33 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <div className="h-screen flex flex-column">
-        <Header theme={selectedTheme} onThemeChange={onThemeChange} />
-        <main className="flex-1 surface-ground relative">
-          <Routes>
-            <Route path="/" element={<ExecucaoPage />} />
-            <Route
-              path="/acompanhamento/:idSolicitacao"
-              element={<AcompanhamentoPage />}
-            />
-          </Routes>
-        </main>
-        <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1">
-          <h2 className="m-0 text-white">IBGE</h2>
-        </footer>
-      </div>
+      <Toast ref={toast} />
+
+      <ToastContext.Provider
+        value={{
+          toast,
+          showSuccess: (msg) => onSuccess(toast, msg),
+          showInfo: (msg) => onInfo(toast, msg),
+          showWarn: (msg) => onWarn(toast, msg),
+          showError: (msg) => onError(toast, msg),
+        }}
+      >
+        <div className="h-screen flex flex-column">
+          <Header theme={selectedTheme} onThemeChange={onThemeChange} />
+          <main className="flex-1 surface-ground relative">
+            <Routes>
+              <Route path="/" element={<ExecucaoPage />} />
+              <Route
+                path="/acompanhamento/:idSolicitacao"
+                element={<AcompanhamentoPage />}
+              />
+            </Routes>
+          </main>
+          <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1">
+            <h2 className="m-0 text-white">IBGE</h2>
+          </footer>
+        </div>
+      </ToastContext.Provider>
     </BrowserRouter>
   )
 }

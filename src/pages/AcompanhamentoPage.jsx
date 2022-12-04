@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import SockJsClient from 'react-stomp'
 import { DataTable } from 'primereact/datatable'
@@ -7,15 +7,24 @@ import { ProgressSpinner } from 'primereact/progressspinner'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { api, API_BASE_URL, edata } from '../services/api.service'
-import { parseDate } from '../services/date.service'
 import { reexecutarRelatorios } from '../services/relatorio.service'
+import { FormatoDado } from '../models/FormatoDado'
+import { TipoDado } from '../models/TipoDado'
+import { PosicaoTerritorio } from '../models/PosicaoTerritorio'
+import { StatusExecucao } from '../models/StatusExecucao'
 import Loading from '../components/Loading'
+import { ToastContext } from '../contexts/ToastContext'
 
 const getParamErrorMsg = (param) => `Falha ao carregar ${param}`
+const MSG_ERRO_STATUS_RELATORIO =
+  'Falha ao atualizar status dos relatórios, talvez seja necessário recarregar a página'
+const MSG_ERRO_REEXECUCAO_RELATORIO =
+  'Falha ao reexecutar relatórios, talvez seja necessário recarregar a página'
 
 export default function AcompanhamentoPage() {
   const { idSolicitacao } = useParams()
-  const [error, setError] = useState('')
+  const { showError } = useContext(ToastContext)
+
   const [loading, setLoading] = useState(true)
   const [solicitacao, setSolicitacao] = useState(null)
   const [mensagemErroVisualizada, setMensagemErroVisualizada] = useState(null)
@@ -39,24 +48,20 @@ export default function AcompanhamentoPage() {
 
         setSolicitacao(solicitacao)
       } catch (err) {
-        setError(err.message ?? err)
+        showError(err.message ?? err)
       } finally {
         setLoading(false)
       }
     })()
-  }, [idSolicitacao])
+  }, [idSolicitacao, showError])
 
   function onWebSocketMessage(statusRelatorio) {
-    if (!solicitacao?.relatorios?.length) {
-      setError('Falha ao atualizar status dos relatórios')
-      return
-    }
-
     const {
       id: idRelatorio,
       statusExecucao,
       dataExecucao,
       duracaoExecucao,
+      mensagemErro,
     } = statusRelatorio
 
     const idxRelatorio = solicitacao.relatorios.findIndex(
@@ -64,7 +69,8 @@ export default function AcompanhamentoPage() {
     )
 
     if (idxRelatorio < 0) {
-      console.log('WebSocket: Relatório não encontrado', { statusRelatorio })
+      showError(MSG_ERRO_STATUS_RELATORIO)
+      console.log('WebSocket: Relatório não encontrado', statusRelatorio)
       return
     }
 
@@ -72,6 +78,8 @@ export default function AcompanhamentoPage() {
     solicitacaoClone.relatorios[idxRelatorio].statusExecucao = statusExecucao
     solicitacaoClone.relatorios[idxRelatorio].dataExecucao = dataExecucao
     solicitacaoClone.relatorios[idxRelatorio].duracaoExecucao = duracaoExecucao
+    solicitacaoClone.relatorios[idxRelatorio].mensagemErro = mensagemErro
+
     setSolicitacao(solicitacaoClone)
   }
 
@@ -81,34 +89,37 @@ export default function AcompanhamentoPage() {
         idsRelatorios: [idRelatorio],
       })
 
+      if (!Array.isArray(relatorios)) {
+        throw Error(MSG_ERRO_REEXECUCAO_RELATORIO)
+      }
+
       onReexecucao(relatorios)
     } catch (err) {
-      setError(err.message ?? err)
+      showError(err.message ?? err)
     }
   }
 
   async function onClickReexecucaoTotal() {
     try {
       const idsRelatorios = solicitacao.relatorios
-        .filter((rel) => rel.statusExecucao === 'Falha')
+        .filter((rel) => rel.statusExecucao === StatusExecucao.FALHA.key)
         .map((rel) => rel.id)
 
       if (idsRelatorios.length) {
         const relatorios = await reexecutarRelatorios({ idsRelatorios })
 
+        if (!Array.isArray(relatorios)) {
+          throw Error(MSG_ERRO_REEXECUCAO_RELATORIO)
+        }
+
         onReexecucao(relatorios)
       }
     } catch (err) {
-      setError(err.message ?? err)
+      showError(err.message ?? err)
     }
   }
 
   function onReexecucao(relatorios) {
-    if (!Array.isArray(relatorios)) {
-      console.log('Reexecução: Erro ao reexecutar relatórios', relatorios)
-      return
-    }
-
     const solicitacaoClone = { ...solicitacao }
 
     for (const idRelatorio of relatorios.map((s) => s.id)) {
@@ -119,6 +130,7 @@ export default function AcompanhamentoPage() {
       const idxReexecucao = relatorios.findIndex((st) => st.id === idRelatorio)
 
       if (idxSolicitacao < 0 || idxReexecucao < 0) {
+        showError(MSG_ERRO_STATUS_RELATORIO)
         console.log('Reexecução: Relatório não encontrado', relatorios)
         continue
       }
@@ -126,7 +138,8 @@ export default function AcompanhamentoPage() {
       const { statusExecucao } = relatorios[idxReexecucao]
 
       if (
-        solicitacao.relatorios[idxSolicitacao].statusExecucao !== 'Em Execução'
+        solicitacao.relatorios[idxSolicitacao].statusExecucao !==
+        StatusExecucao.EM_EXECUCAO.key
       ) {
         solicitacaoClone.relatorios[idxSolicitacao].statusExecucao =
           statusExecucao
@@ -138,14 +151,10 @@ export default function AcompanhamentoPage() {
 
   function isSolicitacaoComFalhas() {
     const relatoriosComFalha = solicitacao.relatorios.filter(
-      (rel) => rel.statusExecucao === 'Falha'
+      (rel) => rel.statusExecucao === StatusExecucao.FALHA.key
     )
 
     return relatoriosComFalha.length > 0
-  }
-
-  if (error) {
-    return <div className="text-center">{error}</div>
   }
 
   let content = <></>
@@ -170,7 +179,7 @@ export default function AcompanhamentoPage() {
                 </span>
                 :
               </span>
-              {parseDate(solicitacao.dataSolicitacao)}
+              {solicitacao.dataSolicitacao}
             </div>
 
             <div className="m-3">
@@ -187,7 +196,8 @@ export default function AcompanhamentoPage() {
               <ul className="m-0 p-0 list-none text-left">
                 {solicitacao.territorios.map((t) => (
                   <li key={t.idTerritorioEdata}>
-                    {t.idTerritorioEdata} - {t.nome} ({t.posicao})
+                    {t.idTerritorioEdata} - {t.nome} (
+                    {PosicaoTerritorio[t.posicao].value})
                   </li>
                 ))}
               </ul>
@@ -201,7 +211,7 @@ export default function AcompanhamentoPage() {
                 </div>
                 <ul className="m-0 p-0 list-none text-left">
                   {solicitacao.tiposDado.map((td, i) => (
-                    <li key={i}>{td}</li>
+                    <li key={i}>{TipoDado[td].value}</li>
                   ))}
                 </ul>
               </div>
@@ -217,7 +227,7 @@ export default function AcompanhamentoPage() {
                 </div>
                 <ul className="m-0 p-0 list-none text-left">
                   {solicitacao.formatosDado.map((fd, i) => (
-                    <li key={i}>{fd}</li>
+                    <li key={i}>{FormatoDado[fd].value}</li>
                   ))}
                 </ul>
               </div>
@@ -259,7 +269,10 @@ export default function AcompanhamentoPage() {
               <Column
                 header="Status da Execução"
                 body={(rel) => {
-                  if (rel.statusExecucao === 'Falha' && rel.mensagemErro) {
+                  if (
+                    rel.statusExecucao === StatusExecucao.FALHA.key &&
+                    rel.mensagemErro
+                  ) {
                     return (
                       <button
                         className="cleanButtonStyle underline hover:text-color-secondary"
@@ -267,19 +280,19 @@ export default function AcompanhamentoPage() {
                           setMensagemErroVisualizada(rel.mensagemErro)
                         }
                       >
-                        {rel.statusExecucao}
+                        {StatusExecucao[rel.statusExecucao].value}
                       </button>
                     )
                   }
 
-                  return rel.statusExecucao
+                  return StatusExecucao[rel.statusExecucao].value
                 }}
               ></Column>
               <Column field="dataExecucao" header="Data da Execução"></Column>
               <Column
                 header="Duração da Execução"
                 body={(rel) => {
-                  if (rel.statusExecucao === 'Em Execução') {
+                  if (rel.statusExecucao === StatusExecucao.EM_EXECUCAO.key) {
                     return <ProgressSpinner className="w-2rem h-2rem" />
                   }
 
@@ -289,12 +302,12 @@ export default function AcompanhamentoPage() {
                 }}
               ></Column>
               {!!solicitacao.relatorios.some(
-                (rel) => rel.statusExecucao === 'Falha'
+                (rel) => rel.statusExecucao === StatusExecucao.FALHA.key
               ) && (
                 <Column
                   header="Reexecutar"
                   body={(rel) => {
-                    if (rel.statusExecucao === 'Falha') {
+                    if (rel.statusExecucao === StatusExecucao.FALHA.key) {
                       return (
                         <div className="text-center">
                           <Button
