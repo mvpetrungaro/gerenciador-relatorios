@@ -20,11 +20,29 @@ const themes = {
     label: 'light',
     href: '/themes/bootstrap4-light-blue.css',
     icon: 'moon',
+    customStyles: `
+      .text-danger {
+        color: #dc3545 !important
+      }
+
+      .text-danger:hover {
+        color: #c82333 !important
+      }
+    `,
   },
   dark: {
     label: 'dark',
     href: '/themes/bootstrap4-dark-blue.css',
     icon: 'sun',
+    customStyles: `
+      .text-danger {
+        color: #f19ea6 !important
+      }
+
+      .text-danger:hover {
+        color: #e97984 !important
+      }
+    `,
   },
 }
 
@@ -37,6 +55,9 @@ export function App() {
   const [selectedTheme, setSelectedTheme] = useState(
     themes[localStorage.getItem('selectedTheme')]
   )
+
+  if (selectedTheme?.label === themes.light.label) {
+  }
 
   function onThemeChange() {
     setSelectedTheme((currentTheme) => {
@@ -56,6 +77,8 @@ export function App() {
 
   useEffect(() => {
     document.getElementById('theme-link').href = selectedTheme.href
+    document.getElementById('custom-theme-styles').innerHTML =
+      selectedTheme.customStyles
   }, [selectedTheme])
 
   return (

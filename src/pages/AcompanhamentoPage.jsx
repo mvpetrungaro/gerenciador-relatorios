@@ -7,7 +7,11 @@ import { ProgressSpinner } from 'primereact/progressspinner'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { api, API_BASE_URL, edata } from '../services/api.service'
-import { reexecutarRelatorios } from '../services/relatorio.service'
+import {
+  isSolicitacaoComFalhas,
+  isSolicitacaoComSucessos,
+  reexecutarRelatorios,
+} from '../services/relatorio.service'
 import { FormatoDado } from '../models/FormatoDado'
 import { TipoDado } from '../models/TipoDado'
 import { PosicaoTerritorio } from '../models/PosicaoTerritorio'
@@ -149,14 +153,6 @@ export default function AcompanhamentoPage() {
     setSolicitacao(solicitacaoClone)
   }
 
-  function isSolicitacaoComFalhas() {
-    const relatoriosComFalha = solicitacao.relatorios.filter(
-      (rel) => rel.statusExecucao === StatusExecucao.FALHA.key
-    )
-
-    return relatoriosComFalha.length > 0
-  }
-
   let content = <></>
 
   if (loading) {
@@ -275,7 +271,7 @@ export default function AcompanhamentoPage() {
                   ) {
                     return (
                       <button
-                        className="cleanButtonStyle underline hover:text-color-secondary"
+                        className="cleanButtonStyle underline text-danger"
                         onClick={() =>
                           setMensagemErroVisualizada(rel.mensagemErro)
                         }
@@ -301,23 +297,38 @@ export default function AcompanhamentoPage() {
                   }
                 }}
               ></Column>
-              {!!solicitacao.relatorios.some(
-                (rel) => rel.statusExecucao === StatusExecucao.FALHA.key
-              ) && (
+              {(isSolicitacaoComFalhas(solicitacao) ||
+                isSolicitacaoComSucessos(solicitacao)) && (
                 <Column
-                  header="Reexecutar"
+                  header=""
                   body={(rel) => {
-                    if (rel.statusExecucao === StatusExecucao.FALHA.key) {
-                      return (
-                        <div className="text-center">
-                          <Button
-                            icon="pi pi-refresh"
-                            className="p-button-rounded"
-                            aria-label="Reexecutar"
-                            onClick={() => onClickReexecucao(rel.id)}
-                          />
-                        </div>
-                      )
+                    switch (rel.statusExecucao) {
+                      case StatusExecucao.SUCESSO.key:
+                        return (
+                          <div className="text-center">
+                            <Button
+                              icon="pi pi-download"
+                              className="p-button-rounded p-button-success"
+                              aria-label="Download"
+                              onClick={() => {}}
+                            />
+                          </div>
+                        )
+
+                      case StatusExecucao.FALHA.key:
+                        return (
+                          <div className="text-center">
+                            <Button
+                              icon="pi pi-refresh"
+                              className="p-button-rounded p-button-danger"
+                              aria-label="Reexecutar"
+                              onClick={() => onClickReexecucao(rel.id)}
+                            />
+                          </div>
+                        )
+
+                      default:
+                        return <></>
                     }
                   }}
                 ></Column>
@@ -327,12 +338,23 @@ export default function AcompanhamentoPage() {
         </div>
 
         <div className="mt-5 text-right">
-          {isSolicitacaoComFalhas() && (
+          {isSolicitacaoComFalhas(solicitacao) && (
             <Button
               label="Reexecutar Falhas"
-              className="p-button-rounded"
+              icon="pi pi-refresh"
+              className="ml-2 p-button-rounded p-button-danger"
               aria-label="Reexecutar Falhas"
               onClick={onClickReexecucaoTotal}
+            />
+          )}
+
+          {isSolicitacaoComSucessos(solicitacao) && (
+            <Button
+              label="Baixar Sucessos"
+              icon="pi pi-download"
+              className="ml-2 p-button-rounded p-button-success"
+              aria-label="Baixar Sucessos"
+              onClick={() => {}}
             />
           )}
         </div>
