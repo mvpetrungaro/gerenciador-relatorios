@@ -8,6 +8,8 @@ import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { api, API_BASE_URL, edata } from '../services/api.service'
 import {
+  getDownloadRelatorioURL,
+  getDownloadSolicitacaoURL,
   isSolicitacaoComFalhas,
   isSolicitacaoComSucessos,
   reexecutarRelatorios,
@@ -87,6 +89,11 @@ export default function AcompanhamentoPage() {
     setSolicitacao(solicitacaoClone)
   }
 
+  function onClickDownload(idRelatorio) {
+    const downloadURL = getDownloadRelatorioURL(idRelatorio)
+    window.location = downloadURL
+  }
+
   async function onClickReexecucao(idRelatorio) {
     try {
       const relatorios = await reexecutarRelatorios({
@@ -101,6 +108,11 @@ export default function AcompanhamentoPage() {
     } catch (err) {
       showError(err.message ?? err)
     }
+  }
+
+  function onClickDownloadTotal() {
+    const downloadURL = getDownloadSolicitacaoURL(solicitacao.id)
+    window.location = downloadURL
   }
 
   async function onClickReexecucaoTotal() {
@@ -310,7 +322,7 @@ export default function AcompanhamentoPage() {
                               icon="pi pi-download"
                               className="p-button-rounded p-button-success"
                               aria-label="Download"
-                              onClick={() => {}}
+                              onClick={() => onClickDownload(rel.id)}
                             />
                           </div>
                         )
@@ -354,7 +366,7 @@ export default function AcompanhamentoPage() {
               icon="pi pi-download"
               className="ml-2 p-button-rounded p-button-success"
               aria-label="Baixar Sucessos"
-              onClick={() => {}}
+              onClick={onClickDownloadTotal}
             />
           )}
         </div>

@@ -1,5 +1,5 @@
 import { StatusExecucao } from '../models/StatusExecucao'
-import { api } from './api.service'
+import { api, API_BASE_URL } from './api.service'
 
 export async function solicitarRelatorios(solicitacao) {
   if (!solicitacao) throw Error('Solicitação inválida')
@@ -11,6 +11,18 @@ export async function reexecutarRelatorios(reexecucao) {
   if (!reexecucao) throw Error('Reexecução inválida')
 
   return api.post('/relatorios/reexecucao', reexecucao)
+}
+
+export function getDownloadRelatorioURL(idRelatorio) {
+  if (!idRelatorio) throw Error('Relatório inválido')
+
+  return `${API_BASE_URL}/relatorios/download/${idRelatorio}`
+}
+
+export function getDownloadSolicitacaoURL(idSolicitacao) {
+  if (!idSolicitacao) throw Error('Solicitação inválida')
+
+  return `${API_BASE_URL}/relatorios/solicitacao/download/${idSolicitacao}`
 }
 
 function hasRelatorioComStatus(solicitacao, status) {
