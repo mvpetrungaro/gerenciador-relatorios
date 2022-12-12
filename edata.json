@@ -171,7 +171,7 @@
     },
     {
       "id": 264216,
-      "nome": "Relatório 1",
+      "nome": "Taxas e Indicadores",
       "titulo": "Informações agregadas sobre taxas e indicadores importantes",
       "indicadoras": false,
       "arquivo": "INFORMACOES_AGREGADAS_SOBRE_TAXAS_E_INDICADORES_IMPORTANTES.html",
@@ -179,7 +179,7 @@
     },
     {
       "id": 335719,
-      "nome": "Relatório 2",
+      "nome": "Relatório Temático: Cor ou Raça",
       "titulo": "Relatório Temático: Cor ou Raça",
       "indicadoras": false,
       "arquivo": "RELATORIO_TEMATICO_-_COR_OU_RACA.html",
@@ -187,7 +187,7 @@
     },
     {
       "id": 545492,
-      "nome": "Relatório 3",
+      "nome": "Relatório Temático: Rendimento Domiciliar",
       "titulo": "Relatório Temático: Rendimento Domiciliar",
       "indicadoras": false,
       "arquivo": "RELATORIO_TEMATICO_-_RENDIMENTO_DOMICILIAR.html",
@@ -195,7 +195,7 @@
     },
     {
       "id": 775193,
-      "nome": "Relatório 4",
+      "nome": "Relatório Temático: Rendimento Pessoal",
       "titulo": "Relatório Temático: Rendimento Pessoal",
       "indicadoras": false,
       "arquivo": "RELATORIO_TEMATICO_-_RENDIMENTO_PESSOAL.html",
@@ -203,7 +203,7 @@
     },
     {
       "id": 856194,
-      "nome": "Relatório 5",
+      "nome": "Totais de Domicílios e Pessoas",
       "titulo": "Totais de Domicílios e Pessoas",
       "indicadoras": false,
       "arquivo": "TOTAIS_DE_DOMICILIOS_E_PESSOAS.html",
@@ -211,8 +211,8 @@
     },
     {
       "id": 940650,
-      "nome": "Relatório 6",
-      "titulo": "Horário das Entrevistas (11-2022)",
+      "nome": "Horário das Entrevistas (11-2022)",
+      "titulo": "Número de entrevistas por dia e horário do início da entrevista - (Novembro 2022)",
       "indicadoras": true,
       "arquivo": "HORARIOS_DAS_ENTREVISTAS_-_(11-2022).html",
       "idProjeto": 8884

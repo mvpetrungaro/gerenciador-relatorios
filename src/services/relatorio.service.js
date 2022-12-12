@@ -7,6 +7,12 @@ export async function solicitarRelatorios(solicitacao) {
   return api.post('/relatorios/solicitacao', solicitacao)
 }
 
+export async function interromperSolicitacao(idSolicitacao) {
+  if (!idSolicitacao) throw Error('Solicitação inválida')
+
+  return api.get(`/relatorios/solicitacao/interrupcao/${idSolicitacao}`)
+}
+
 export async function reexecutarRelatorios(reexecucao) {
   if (!reexecucao) throw Error('Reexecução inválida')
 
@@ -38,4 +44,15 @@ export function isSolicitacaoComFalhas(solicitacao) {
 
 export function isSolicitacaoComSucessos(solicitacao) {
   return hasRelatorioComStatus(solicitacao, StatusExecucao.SUCESSO)
+}
+
+export function isSolicitacaoAbortada(solicitacao) {
+  return hasRelatorioComStatus(solicitacao, StatusExecucao.ABORTADO)
+}
+
+export function isSolicitacaoEmAndamento(solicitacao) {
+  return (
+    hasRelatorioComStatus(solicitacao, StatusExecucao.AGUARDANDO_EXECUCAO) ||
+    hasRelatorioComStatus(solicitacao, StatusExecucao.EM_EXECUCAO)
+  )
 }

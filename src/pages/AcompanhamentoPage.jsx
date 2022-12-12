@@ -10,8 +10,11 @@ import { api, API_BASE_URL, edata } from '../services/api.service'
 import {
   getDownloadRelatorioURL,
   getDownloadSolicitacaoURL,
+  interromperSolicitacao,
+  isSolicitacaoAbortada,
   isSolicitacaoComFalhas,
   isSolicitacaoComSucessos,
+  isSolicitacaoEmAndamento,
   reexecutarRelatorios,
 } from '../services/relatorio.service'
 import { FormatoDado } from '../models/FormatoDado'
@@ -34,6 +37,8 @@ export default function AcompanhamentoPage() {
   const [loading, setLoading] = useState(true)
   const [solicitacao, setSolicitacao] = useState(null)
   const [mensagemErroVisualizada, setMensagemErroVisualizada] = useState(null)
+
+  if (solicitacao) console.log(isSolicitacaoEmAndamento(solicitacao))
 
   useEffect(() => {
     ;(async () => {
@@ -135,6 +140,32 @@ export default function AcompanhamentoPage() {
     }
   }
 
+  async function onClickAbortar() {
+    try {
+      interromperSolicitacao(solicitacao.id)
+    } catch (err) {
+      showError(err.message ?? err)
+    }
+  }
+
+  async function onClickReiniciar() {
+    try {
+      const idsRelatorios = solicitacao.relatorios.map((rel) => rel.id)
+
+      if (idsRelatorios.length) {
+        const relatorios = await reexecutarRelatorios({ idsRelatorios })
+
+        if (!Array.isArray(relatorios)) {
+          throw Error(MSG_ERRO_REEXECUCAO_RELATORIO)
+        }
+
+        onReexecucao(relatorios)
+      }
+    } catch (err) {
+      showError(err.message ?? err)
+    }
+  }
+
   function onReexecucao(relatorios) {
     const solicitacaoClone = { ...solicitacao }
 
@@ -151,18 +182,44 @@ export default function AcompanhamentoPage() {
         continue
       }
 
-      const { statusExecucao } = relatorios[idxReexecucao]
-
+      // Se o relatório ainda não estiver em execução, atualizar atributos conforme resposta do back-end
+      // (statusExecucao, dataExecucao e duracaoExecucao devem ter sido resetados para a reexecução).
       if (
         solicitacao.relatorios[idxSolicitacao].statusExecucao !==
         StatusExecucao.EM_EXECUCAO.key
       ) {
-        solicitacaoClone.relatorios[idxSolicitacao].statusExecucao =
-          statusExecucao
+        // Duplicar todo o objeto e só atualizar o que tiver vindo do back-end.
+        // Essa abordagem evita perder informações que não foram tratadas pelo serviço de reexecução (ex: nome da tabela edata).
+        solicitacaoClone.relatorios[idxSolicitacao] = {
+          ...solicitacaoClone.relatorios[idxSolicitacao],
+          ...relatorios[idxReexecucao],
+        }
       }
     }
 
     setSolicitacao(solicitacaoClone)
+  }
+
+  function showBotaoAbortar() {
+    return isSolicitacaoEmAndamento(solicitacao)
+  }
+
+  function showBotaoReiniciar() {
+    return isSolicitacaoAbortada(solicitacao)
+  }
+
+  function showBotaoReexecutar() {
+    return (
+      !isSolicitacaoAbortada(solicitacao) && isSolicitacaoComFalhas(solicitacao)
+    )
+  }
+
+  function showBotaoBaixar() {
+    return isSolicitacaoComSucessos(solicitacao)
+  }
+
+  function showColunaAcoes() {
+    return showBotaoReexecutar() || showBotaoBaixar()
   }
 
   let content = <></>
@@ -309,38 +366,40 @@ export default function AcompanhamentoPage() {
                   }
                 }}
               ></Column>
-              {(isSolicitacaoComFalhas(solicitacao) ||
-                isSolicitacaoComSucessos(solicitacao)) && (
+              {showColunaAcoes() && (
                 <Column
                   header=""
                   body={(rel) => {
-                    switch (rel.statusExecucao) {
-                      case StatusExecucao.SUCESSO.key:
-                        return (
-                          <div className="text-center">
-                            <Button
-                              icon="pi pi-download"
-                              className="p-button-rounded p-button-success"
-                              aria-label="Download"
-                              onClick={() => onClickDownload(rel.id)}
-                            />
-                          </div>
-                        )
-
-                      case StatusExecucao.FALHA.key:
-                        return (
-                          <div className="text-center">
-                            <Button
-                              icon="pi pi-refresh"
-                              className="p-button-rounded p-button-danger"
-                              aria-label="Reexecutar"
-                              onClick={() => onClickReexecucao(rel.id)}
-                            />
-                          </div>
-                        )
-
-                      default:
-                        return <></>
+                    if (
+                      showBotaoReexecutar() &&
+                      rel.statusExecucao === StatusExecucao.FALHA.key
+                    ) {
+                      return (
+                        <div className="text-center">
+                          <Button
+                            icon="pi pi-refresh"
+                            className="p-button-rounded p-button-danger"
+                            aria-label="Reexecutar"
+                            onClick={() => onClickReexecucao(rel.id)}
+                          />
+                        </div>
+                      )
+                    } else if (
+                      showBotaoBaixar() &&
+                      rel.statusExecucao === StatusExecucao.SUCESSO.key
+                    ) {
+                      return (
+                        <div className="text-center">
+                          <Button
+                            icon="pi pi-download"
+                            className="p-button-rounded p-button-success"
+                            aria-label="Download"
+                            onClick={() => onClickDownload(rel.id)}
+                          />
+                        </div>
+                      )
+                    } else {
+                      return <></>
                     }
                   }}
                 ></Column>
@@ -350,7 +409,27 @@ export default function AcompanhamentoPage() {
         </div>
 
         <div className="mt-5 text-right">
-          {isSolicitacaoComFalhas(solicitacao) && (
+          {showBotaoAbortar() && (
+            <Button
+              label="Abortar"
+              icon="pi pi-times"
+              className="ml-2 p-button-rounded p-button-warning"
+              aria-label="Abortar"
+              onClick={onClickAbortar}
+            />
+          )}
+
+          {showBotaoReiniciar() && (
+            <Button
+              label="Reiniciar"
+              icon="pi pi-refresh"
+              className="ml-2 p-button-rounded p-button-warning"
+              aria-label="Reiniciar"
+              onClick={onClickReiniciar}
+            />
+          )}
+
+          {showBotaoReexecutar() && (
             <Button
               label="Reexecutar Falhas"
               icon="pi pi-refresh"
@@ -360,7 +439,7 @@ export default function AcompanhamentoPage() {
             />
           )}
 
-          {isSolicitacaoComSucessos(solicitacao) && (
+          {showBotaoBaixar() && (
             <Button
               label="Baixar Sucessos"
               icon="pi pi-download"
