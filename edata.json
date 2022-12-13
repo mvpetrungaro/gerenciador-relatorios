@@ -247,5 +247,27 @@
       "nome": "Relatório 3 do Registro Civil 2022",
       "idProjeto": 3601
     }
+  ],
+  "territorios": [
+    {
+      "id": 1000,
+      "nome": "País"
+    },
+    {
+      "id": 4002,
+      "nome": "Grandes Regiões"
+    },
+    {
+      "id": 4003,
+      "nome": "Unidades da Federação"
+    },
+    {
+      "id": 296403,
+      "nome": "Municípios"
+    },
+    {
+      "id": 845089,
+      "nome": "Setores"
+    }
   ]
 }

@@ -12,7 +12,8 @@ import {
   onError,
 } from './contexts/ToastContext'
 import Header from './components/Header'
-import ExecucaoPage from './pages/ExecucaoPage'
+import HomePage from './pages/HomePage'
+import SolicitacaoPage from './pages/SolicitacaoPage'
 import AcompanhamentoPage from './pages/AcompanhamentoPage'
 
 const themes = {
@@ -94,11 +95,12 @@ export function App() {
           showError: (msg) => onError(toast, msg),
         }}
       >
-        <div className="h-screen flex flex-column">
+        <div className="h-screen flex flex-column" style={{ minWidth: 400 }}>
           <Header theme={selectedTheme} onThemeChange={onThemeChange} />
           <main className="flex-1 surface-ground relative">
             <Routes>
-              <Route path="/" element={<ExecucaoPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/solicitacao" element={<SolicitacaoPage />} />
               <Route
                 path="/acompanhamento/:idSolicitacao"
                 element={<AcompanhamentoPage />}

@@ -23,6 +23,8 @@ import { PosicaoTerritorio } from '../models/PosicaoTerritorio'
 import { StatusExecucao } from '../models/StatusExecucao'
 import Loading from '../components/Loading'
 import { ToastContext } from '../contexts/ToastContext'
+import { getProjeto } from '../services/projeto.service'
+import { getTerritorio } from '../services/territorio.service'
 
 const getParamErrorMsg = (param) => `Falha ao carregar ${param}`
 const MSG_ERRO_STATUS_RELATORIO =
@@ -36,9 +38,9 @@ export default function AcompanhamentoPage() {
 
   const [loading, setLoading] = useState(true)
   const [solicitacao, setSolicitacao] = useState(null)
+  const [projeto, setProjeto] = useState(null)
+  const [territorios, setTerritorios] = useState([])
   const [mensagemErroVisualizada, setMensagemErroVisualizada] = useState(null)
-
-  if (solicitacao) console.log(isSolicitacaoEmAndamento(solicitacao))
 
   useEffect(() => {
     ;(async () => {
@@ -57,7 +59,18 @@ export default function AcompanhamentoPage() {
           rel.tabela = tabelas.find((t) => t.id === rel.idTabelaEdata)
         })
 
+        const projeto = await getProjeto(solicitacao.idProjetoEdata)
+
+        const territorios = []
+        for (let t of solicitacao.territorios) {
+          const territorio = await getTerritorio(t.idTerritorioEdata)
+          territorio.posicao = t.posicao
+          territorios.push(territorio)
+        }
+
         setSolicitacao(solicitacao)
+        setProjeto(projeto)
+        setTerritorios(territorios)
       } catch (err) {
         showError(err.message ?? err)
       } finally {
@@ -234,7 +247,7 @@ export default function AcompanhamentoPage() {
     content = (
       <div className="m-5">
         <div className="text-center">
-          <h1>Andamento da Solicitação</h1>
+          <h1>Acompanhamento da Solicitação</h1>
 
           <div className="flex gap-3 flex-wrap justify-content-center align-items-baseline">
             <div className="m-3">
@@ -251,7 +264,7 @@ export default function AcompanhamentoPage() {
               <span className="mr-1">
                 <span className="font-semibold underline">Projeto</span>:
               </span>
-              {solicitacao.idProjetoEdata}
+              {projeto.nome}
             </div>
 
             <div className="m-3 grid">
@@ -259,10 +272,9 @@ export default function AcompanhamentoPage() {
                 <span className="font-semibold underline">Territórios</span>:
               </div>
               <ul className="m-0 p-0 list-none text-left">
-                {solicitacao.territorios.map((t) => (
-                  <li key={t.idTerritorioEdata}>
-                    {t.idTerritorioEdata} - {t.nome} (
-                    {PosicaoTerritorio[t.posicao].value})
+                {territorios.map((t) => (
+                  <li key={t.id}>
+                    {t.nome} ({PosicaoTerritorio[t.posicao].value})
                   </li>
                 ))}
               </ul>

@@ -34,10 +34,6 @@ code {
   box-shadow: none !important;
 }
 
-.p-datatable-wrapper {
-  min-width: fit-content;
-}
-
 .cleanButtonStyle {
   background: none;
   color: inherit;

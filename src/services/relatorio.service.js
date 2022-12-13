@@ -1,5 +1,27 @@
 import { StatusExecucao } from '../models/StatusExecucao'
 import { api, API_BASE_URL } from './api.service'
+import { getProjeto } from './projeto.service'
+import { getTerritorio } from './territorio.service'
+
+export async function buscarSolicitacoesRelatorios() {
+  const solicitacoes = await api.get('/relatorios/solicitacao')
+
+  for (let s of solicitacoes) {
+    s.projeto = await getProjeto(s.idProjetoEdata)
+
+    for (let i = 0; i < s.territorios.length; i++) {
+      const t = s.territorios[i]
+      const territorio = await getTerritorio(t.idTerritorioEdata)
+
+      s.territorios[i] = {
+        ...t,
+        ...territorio,
+      }
+    }
+  }
+
+  return solicitacoes.sort((a, b) => b.id - a.id)
+}
 
 export async function solicitarRelatorios(solicitacao) {
   if (!solicitacao) throw Error('Solicitação inválida')

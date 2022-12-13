@@ -10,7 +10,7 @@ import ConfirmacaoStep from '../components/execucao/ConfirmacaoStep'
 import { solicitarRelatorios } from '../services/relatorio.service'
 import { ToastContext } from '../contexts/ToastContext'
 
-export default function ExecucaoPage() {
+export default function SolicitacaoPage() {
   const navigate = useNavigate()
   const { showError } = useContext(ToastContext)
 
@@ -85,7 +85,7 @@ export default function ExecucaoPage() {
   }
 
   return (
-    <div style={{ minWidth: 400 }}>
+    <div>
       <Steps
         activeIndex={stepsActiveIndex}
         indexChangeHandler={(index) => setStepsActiveIndex(index)}
