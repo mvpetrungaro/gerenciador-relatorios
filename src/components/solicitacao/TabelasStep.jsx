@@ -77,6 +77,7 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
               selection={tabelasSelecionadas}
               onSelectionChange={(e) => setTabelasSelecionadas(e.value)}
               dataKey="id"
+              emptyMessage="Nenhuma tabela encontrada"
               responsiveLayout="scroll"
               className="col-12"
             >

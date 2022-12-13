@@ -16,8 +16,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [solicitacoes, setSolicitacoes] = useState([])
 
-  console.log(solicitacoes)
-
   useEffect(() => {
     ;(async () => {
       try {
@@ -49,94 +47,90 @@ export default function HomePage() {
     content = (
       <div className="m-5">
         <div className="text-center">
-          {!!solicitacoes?.length && (
-            <DataTable
-              value={solicitacoes}
-              dataKey="id"
-              header={
+          <DataTable
+            value={solicitacoes}
+            dataKey="id"
+            header={
+              <div className="text-center">
+                <h2>Solicitações</h2>
+              </div>
+            }
+            emptyMessage="Você ainda não fez solicitações, faça a sua primeira clicando no botão abaixo!"
+            responsiveLayout="scroll"
+            className="text-left"
+          >
+            <Column
+              header="Data da Solicitação"
+              field="dataSolicitacao"
+            ></Column>
+            <Column header="Projeto" field="projeto.nome"></Column>
+            <Column
+              header="Relatórios"
+              body={(s) => <>{s.relatorios.length + ' relatório(s)'}</>}
+            ></Column>
+            <Column
+              header="Territórios"
+              body={(s) => {
+                let territorios = s.territorios[0].nome
+
+                if (s.territorios.length > 1) {
+                  territorios += ' ...'
+                }
+
+                return <>{territorios}</>
+              }}
+            ></Column>
+            <Column header="Formato do Arquivo" field="formatoArquivo"></Column>
+            <Column
+              header="Tipos de Dado"
+              body={(s) => {
+                let tiposDado = ''
+
+                if (s.tiposDado?.length) {
+                  tiposDado += TipoDado[s.tiposDado[0]].value
+
+                  if (s.tiposDado.length > 1) {
+                    tiposDado += ' ...'
+                  }
+                }
+
+                return <>{tiposDado}</>
+              }}
+            ></Column>
+            <Column
+              header="Formatos de Dado"
+              body={(s) => {
+                let formatosDado = ''
+
+                if (s.formatosDado?.length) {
+                  formatosDado += FormatoDado[s.formatosDado[0]].value
+
+                  if (s.formatosDado.length > 1) {
+                    formatosDado += ' ...'
+                  }
+                }
+
+                return <>{formatosDado}</>
+              }}
+            ></Column>
+            <Column
+              header="Paginação"
+              body={(s) => <>{s.paginacao ? s.paginacao : ''}</>}
+            ></Column>
+            <Column
+              header="Acompanhar"
+              body={(s) => (
                 <div className="text-center">
-                  <h2>Solicitações</h2>
+                  <Button
+                    icon="pi pi-search"
+                    className="p-button-rounded"
+                    aria-label="Acompanhar"
+                    onClick={() => onAcompanhar(s.id)}
+                  />
                 </div>
-              }
-              responsiveLayout="scroll"
-              className="text-left"
-            >
-              <Column
-                header="Data da Solicitação"
-                field="dataSolicitacao"
-              ></Column>
-              <Column header="Projeto" field="projeto.nome"></Column>
-              <Column
-                header="Relatórios"
-                body={(s) => <>{s.relatorios.length + ' relatório(s)'}</>}
-              ></Column>
-              <Column
-                header="Territórios"
-                body={(s) => {
-                  let territorios = s.territorios[0].nome
-
-                  if (s.territorios.length > 1) {
-                    territorios += ' ...'
-                  }
-
-                  return <>{territorios}</>
-                }}
-              ></Column>
-              <Column
-                header="Formato do Arquivo"
-                field="formatoArquivo"
-              ></Column>
-              <Column
-                header="Tipos de Dado"
-                body={(s) => {
-                  let tiposDado = ''
-
-                  if (s.tiposDado?.length) {
-                    tiposDado += TipoDado[s.tiposDado[0]].value
-
-                    if (s.tiposDado.length > 1) {
-                      tiposDado += ' ...'
-                    }
-                  }
-
-                  return <>{tiposDado}</>
-                }}
-              ></Column>
-              <Column
-                header="Formatos de Dado"
-                body={(s) => {
-                  let formatosDado = ''
-
-                  if (s.formatosDado?.length) {
-                    formatosDado += FormatoDado[s.formatosDado[0]].value
-
-                    if (s.formatosDado.length > 1) {
-                      formatosDado += ' ...'
-                    }
-                  }
-
-                  return <>{formatosDado}</>
-                }}
-              ></Column>
-              <Column
-                header="Paginação"
-                body={(s) => <>{s.paginacao ? s.paginacao : ''}</>}
-              ></Column>
-              <Column
-                header="Acompanhar"
-                body={(s) => (
-                  <div className="text-center">
-                    <Button
-                      icon="pi pi-search"
-                      className="p-button-rounded"
-                      aria-label="Acompanhar"
-                      onClick={() => onAcompanhar(s.id)}
-                    />
-                  </div>
-                )}
-              ></Column>
-            </DataTable>
-          )}
+              )}
+            ></Column>
+          </DataTable>
         </div>
 
         <div className="m-auto p-3 text-right">
