@@ -1,27 +1,46 @@
 import fetcher from '../infras/fetch.infra'
+import { limparSessao } from './login.service'
 
 const EDATA_BASE_URL = 'http://localhost:3001'
 export const API_BASE_URL = 'http://localhost:8080'
 const LOCAL_BASE_URL = 'http://localhost:3000'
 
-async function get(baseUrl, path, contentType) {
+function parsePath(path) {
+  let parsedPath = path
+
   if (!(path?.[0] === '/')) {
-    path = '/' + path
+    parsedPath = '/' + path
   }
 
-  if (contentType === 'html') {
-    return fetcher.getHtml(baseUrl + path)
-  }
+  return parsedPath
+}
 
-  return fetcher.getJson(baseUrl + path)
+async function get(baseUrl, path, contentType) {
+  try {
+    if (contentType === 'html') {
+      return fetcher.getHtml(baseUrl + parsePath(path))
+    }
+
+    return fetcher.getJson(baseUrl + parsePath(path))
+  } catch (err) {
+    if (err.name && err.name === 'UnauthorizedError') {
+      limparSessao()
+    } else {
+      throw err
+    }
+  }
 }
 
 async function post(baseUrl, path, data) {
-  if (!(path?.[0] === '/')) {
-    path = '/' + path
+  try {
+    return fetcher.postJson(baseUrl + parsePath(path), data)
+  } catch (err) {
+    if (err.name && err.name === 'UnauthorizedError') {
+      limparSessao()
+    } else {
+      throw err
+    }
   }
-
-  return fetcher.postJson(baseUrl + path, data)
 }
 
 export const edata = {

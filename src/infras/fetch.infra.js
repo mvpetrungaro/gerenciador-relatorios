@@ -1,17 +1,43 @@
+import { UnauthorizedError } from './error.infra'
+
 export async function getJson(url) {
-  return await (await fetch(url)).json()
+  const response = await fetch(url)
+
+  if (!response.ok && response.status === 401) {
+    throw UnauthorizedError()
+  }
+
+  return await response.json()
+}
+
+export async function getJsonWithCredentials(url, credentials) {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: 'Basic ' + btoa(credentials),
+    },
+  })
+
+  if (!response.ok && response.status === 401) {
+    throw UnauthorizedError()
+  }
+
+  return await response.json()
 }
 
 export async function postJson(url, data) {
-  return await (
-    await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-  ).json()
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok && response.status === 401) {
+    throw UnauthorizedError()
+  }
+
+  return await response.json()
 }
 
 export async function getHtml(url) {
@@ -20,6 +46,7 @@ export async function getHtml(url) {
 
 const fetcher = {
   getJson,
+  getJsonWithCredentials,
   postJson,
   getHtml,
 }

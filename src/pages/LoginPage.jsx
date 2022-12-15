@@ -6,6 +6,7 @@ import { Password } from 'primereact/password'
 import Loading from '../components/Loading'
 import { ToastContext } from '../contexts/ToastContext'
 import { login } from '../services/login.service'
+// import { login } from '../services/login.service'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -18,7 +19,8 @@ export default function LoginPage() {
   useEffect(() => {
     ;(async () => {
       try {
-        setLoading(false)
+        setUsuario('')
+        setSenha('')
       } catch (err) {
         showError(err.message ?? err)
       } finally {
@@ -27,9 +29,15 @@ export default function LoginPage() {
     })()
   }, [showError])
 
-  function onLogin() {
-    login(usuario, senha)
-    //navigate('/')
+  async function onLogin() {
+    try {
+      await login(usuario, senha)
+      navigate('/')
+    } catch (err) {
+      if (err.name && err.name === 'UnauthorizedError') {
+        showError('Usuário ou senha incorretos')
+      }
+    }
   }
 
   let content = <></>
