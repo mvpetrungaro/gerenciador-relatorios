@@ -26,7 +26,9 @@ export default function LoginPage() {
     })()
   }, [showError])
 
-  async function onLogin() {
+  async function onLogin(e) {
+    e.preventDefault()
+
     try {
       await login(usuario, senha)
       global.location.href = '/'
@@ -45,33 +47,35 @@ export default function LoginPage() {
     content = (
       <div className="flex h-full justify-content-center align-items-center">
         <div style={{ width: 400 }}>
-          <div className="p-float-label">
-            <InputText
-              id="usuario"
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)}
-              className="w-full"
-            />
-            <label htmlFor="usuario">Usuário</label>
-          </div>
+          <form onSubmit={onLogin}>
+            <div className="p-float-label">
+              <InputText
+                id="usuario"
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                className="w-full"
+              />
+              <label htmlFor="usuario">Usuário</label>
+            </div>
 
-          <div className="mt-5 p-float-label">
-            <Password
-              id="senha"
-              value={senha}
-              feedback={false}
-              onChange={(e) => setSenha(e.target.value)}
-              className="w-full"
-              inputClassName="w-full"
-            />
-            <label htmlFor="senha">Senha</label>
-          </div>
+            <div className="mt-5 p-float-label">
+              <Password
+                id="senha"
+                value={senha}
+                feedback={false}
+                onChange={(e) => setSenha(e.target.value)}
+                className="w-full"
+                inputClassName="w-full"
+              />
+              <label htmlFor="senha">Senha</label>
+            </div>
 
-          <div className="mt-5 w-full">
-            <Button onClick={onLogin} className="w-full justify-content-center">
-              Login
-            </Button>
-          </div>
+            <div className="mt-5 w-full">
+              <Button type="submit" className="w-full justify-content-center">
+                Login
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     )
