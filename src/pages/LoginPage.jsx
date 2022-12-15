@@ -1,15 +1,12 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Password } from 'primereact/password'
 import Loading from '../components/Loading'
 import { ToastContext } from '../contexts/ToastContext'
 import { login } from '../services/login.service'
-// import { login } from '../services/login.service'
 
 export default function LoginPage() {
-  const navigate = useNavigate()
   const { showError } = useContext(ToastContext)
 
   const [loading, setLoading] = useState(true)
@@ -32,7 +29,7 @@ export default function LoginPage() {
   async function onLogin() {
     try {
       await login(usuario, senha)
-      navigate('/')
+      global.location.href = '/'
     } catch (err) {
       if (err.name && err.name === 'UnauthorizedError') {
         showError('Usuário ou senha incorretos')

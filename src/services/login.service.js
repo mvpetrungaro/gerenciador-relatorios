@@ -1,6 +1,14 @@
 import fetcher from '../infras/fetch.infra'
 import { API_BASE_URL } from './api.service'
 
+export function loggedIn() {
+  return !!localStorage.getItem('user')
+}
+
+export function currentUser() {
+  return localStorage.getItem('user')
+}
+
 export async function login(usuario, senha) {
   const user = await fetcher.getJsonWithCredentials(
     `${API_BASE_URL}/login`,
@@ -10,7 +18,7 @@ export async function login(usuario, senha) {
 }
 
 export async function logout() {
-  await fetcher.getJson(`${API_BASE_URL}/logout`)
+  await fetcher.getHtml(`${API_BASE_URL}/logout`)
   limparSessao()
 }
 

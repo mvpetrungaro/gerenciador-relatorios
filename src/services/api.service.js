@@ -18,28 +18,28 @@ function parsePath(path) {
 async function get(baseUrl, path, contentType) {
   try {
     if (contentType === 'html') {
-      return fetcher.getHtml(baseUrl + parsePath(path))
+      return await fetcher.getHtml(baseUrl + parsePath(path))
     }
 
-    return fetcher.getJson(baseUrl + parsePath(path))
+    return await fetcher.getJson(baseUrl + parsePath(path))
   } catch (err) {
     if (err.name && err.name === 'UnauthorizedError') {
       limparSessao()
-    } else {
-      throw err
     }
+
+    throw err
   }
 }
 
 async function post(baseUrl, path, data) {
   try {
-    return fetcher.postJson(baseUrl + parsePath(path), data)
+    return await fetcher.postJson(baseUrl + parsePath(path), data)
   } catch (err) {
     if (err.name && err.name === 'UnauthorizedError') {
       limparSessao()
-    } else {
-      throw err
     }
+
+    throw err
   }
 }
 

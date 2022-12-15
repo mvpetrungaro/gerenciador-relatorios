@@ -2,7 +2,7 @@ import 'primereact/resources/primereact.min.css' //core css
 import 'primeicons/primeicons.css' //icons
 import 'primeflex/primeflex.css'
 import React, { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
 import {
   ToastContext,
@@ -16,6 +16,7 @@ import HomePage from './pages/HomePage'
 import SolicitacaoPage from './pages/SolicitacaoPage'
 import AcompanhamentoPage from './pages/AcompanhamentoPage'
 import LoginPage from './pages/LoginPage'
+import { loggedIn } from './services/login.service'
 
 const themes = {
   light: {
@@ -83,6 +84,9 @@ export function App() {
       selectedTheme.customStyles
   }, [selectedTheme])
 
+  const AuthorizedElement = ({ children }) =>
+    loggedIn() ? <>{children}</> : <Navigate to="/login" />
+
   return (
     <BrowserRouter>
       <Toast ref={toast} />
@@ -101,12 +105,31 @@ export function App() {
           <main className="flex-1 surface-ground relative">
             <Routes>
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/" element={<HomePage />} />
-              <Route path="/solicitacao" element={<SolicitacaoPage />} />
+              <Route
+                path="/"
+                element={
+                  <AuthorizedElement>
+                    <HomePage />
+                  </AuthorizedElement>
+                }
+              />
+              <Route
+                path="/solicitacao"
+                element={
+                  <AuthorizedElement>
+                    <SolicitacaoPage />
+                  </AuthorizedElement>
+                }
+              />
               <Route
                 path="/acompanhamento/:idSolicitacao"
-                element={<AcompanhamentoPage />}
+                element={
+                  <AuthorizedElement>
+                    <AcompanhamentoPage />
+                  </AuthorizedElement>
+                }
               />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>
           <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1">

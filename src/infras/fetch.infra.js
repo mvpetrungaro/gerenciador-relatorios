@@ -1,7 +1,7 @@
 import { UnauthorizedError } from './error.infra'
 
 export async function getJson(url) {
-  const response = await fetch(url)
+  const response = await fetch(url, { credentials: 'include' })
 
   if (!response.ok && response.status === 401) {
     throw UnauthorizedError()
@@ -30,6 +30,7 @@ export async function postJson(url, data) {
       'Content-Type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify(data),
   })
 
