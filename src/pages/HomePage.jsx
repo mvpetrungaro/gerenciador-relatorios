@@ -123,7 +123,7 @@ export default function HomePage() {
                 <div className="text-center">
                   <Button
                     icon="pi pi-search"
-                    className="p-button-rounded"
+                    className="p-button-rounded p-button-success"
                     aria-label="Acompanhar"
                     onClick={() => onAcompanhar(s.id)}
                   />

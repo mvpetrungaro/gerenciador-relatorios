@@ -5,6 +5,7 @@ import { Password } from 'primereact/password'
 import Loading from '../components/Loading'
 import { ToastContext } from '../contexts/ToastContext'
 import { login } from '../services/login.service'
+import { Card } from 'primereact/card'
 
 export default function LoginPage() {
   const { showError } = useContext(ToastContext)
@@ -46,9 +47,12 @@ export default function LoginPage() {
   } else {
     content = (
       <div className="flex h-full justify-content-center align-items-center">
-        <div style={{ width: 400 }}>
+        <Card>
           <form onSubmit={onLogin}>
-            <div className="p-float-label">
+            <h3 className="m-0 text-center">
+              Entre com as suas credenciais de acesso
+            </h3>
+            <div className="mt-5 p-float-label">
               <InputText
                 id="usuario"
                 value={usuario}
@@ -76,7 +80,7 @@ export default function LoginPage() {
               </Button>
             </div>
           </form>
-        </div>
+        </Card>
       </div>
     )
   }
