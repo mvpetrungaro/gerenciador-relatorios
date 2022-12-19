@@ -5,15 +5,12 @@ export function loggedIn() {
   return !!localStorage.getItem('user')
 }
 
-export function currentUser() {
-  return localStorage.getItem('user')
-}
-
 export async function login(usuario, senha) {
   const user = await fetcher.getJsonWithCredentials(
     `${API_BASE_URL}/login`,
     `${usuario}:${senha}`
   )
+
   localStorage.setItem('user', JSON.stringify(user))
 }
 

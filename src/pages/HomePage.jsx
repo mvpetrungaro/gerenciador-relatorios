@@ -22,7 +22,6 @@ export default function HomePage() {
         const solicitacoes = await buscarSolicitacoesRelatorios()
 
         setSolicitacoes(solicitacoes)
-        setLoading(false)
       } catch (err) {
         showError(err.message ?? err)
       } finally {
