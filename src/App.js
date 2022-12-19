@@ -4,6 +4,7 @@ import 'primeflex/primeflex.css'
 import React, { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
+import { Button } from 'primereact/button'
 import {
   ToastContext,
   onSuccess,
@@ -58,9 +59,6 @@ export function App() {
   const [selectedTheme, setSelectedTheme] = useState(
     themes[localStorage.getItem('selectedTheme')]
   )
-
-  if (selectedTheme?.label === themes.light.label) {
-  }
 
   function onThemeChange() {
     setSelectedTheme((currentTheme) => {
@@ -132,8 +130,25 @@ export function App() {
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>
-          <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1">
-            <h2 className="m-0 text-white">IBGE</h2>
+          <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1 gap-3">
+            <Button
+              icon="pi pi-github"
+              onClick={() => window.open('https://github.com/mvpetrungaro/')}
+              className="p-button-rounded p-button-outlined text-white bg-black-alpha-90"
+              aria-label="Github"
+            />
+            <Button
+              icon="pi pi-linkedin"
+              onClick={() => window.open('https://linkedin.com/mvpetrungaro/')}
+              className="p-button-rounded p-button-outlined text-blue-700 bg-white-alpha-90"
+              aria-label="Linkedin"
+            />
+            <Button
+              icon="pi pi-at"
+              onClick={() => window.open('mailto:marcos.petrungaro@gmail.com')}
+              className="p-button-rounded p-button-outlined text-white"
+              aria-label="Linkedin"
+            />
           </footer>
         </div>
       </ToastContext.Provider>

@@ -17,7 +17,7 @@ export default function Header({ theme, onThemeChange = () => {} }) {
       {loggedIn() && (
         <div className="col-fixed flex justify-content-end">
           <Button
-            icon={`pi pi-sign-out`}
+            icon="pi pi-sign-out"
             onClick={onLogout}
             className="p-button-rounded p-button-secondary"
             aria-label="Logout"
