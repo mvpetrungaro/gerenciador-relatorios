@@ -6,12 +6,13 @@ import { Column } from 'primereact/column'
 import { ProgressSpinner } from 'primereact/progressspinner'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
-import { api, API_BASE_URL, edata } from '../services/api.service'
+import { API_BASE_URL } from '../services/api.service'
 import { getProjeto } from '../services/projeto.service'
 import { getTerritorio } from '../services/territorio.service'
 import {
   getDownloadRelatorioURL,
   getDownloadSolicitacaoURL,
+  getSolicitacaoRelatorios,
   interromperSolicitacao,
   isSolicitacaoAbortada,
   isSolicitacaoComFalhas,
@@ -45,19 +46,7 @@ export default function AcompanhamentoPage() {
   useEffect(() => {
     ;(async () => {
       try {
-        const solicitacao = await api.get(
-          `/relatorios/solicitacao/${idSolicitacao}`
-        )
-
-        const tabelas = await Promise.all([
-          ...solicitacao.relatorios.map((rel) =>
-            edata.get(`/tabelas/${rel.idTabelaEdata}`)
-          ),
-        ])
-
-        solicitacao.relatorios.forEach((rel) => {
-          rel.tabela = tabelas.find((t) => t.id === rel.idTabelaEdata)
-        })
+        const solicitacao = await getSolicitacaoRelatorios(idSolicitacao)
 
         const projeto = await getProjeto(solicitacao.idProjetoEdata)
 

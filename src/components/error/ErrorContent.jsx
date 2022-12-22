@@ -4,7 +4,7 @@ export default function ErrorContent({
 }) {
   return (
     <div className="h-full flex flex-column gap-3 align-items-center justify-content-center">
-      {icon && <icon className={`pi ${icon} text-7xl`}></icon>}
+      {icon && <i className={`pi ${icon} text-7xl`}></i>}
       <span>{message}</span>
     </div>
   )

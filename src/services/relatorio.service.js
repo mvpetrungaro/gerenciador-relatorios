@@ -1,7 +1,26 @@
 import { StatusExecucao } from '../models/StatusExecucao'
 import { api, API_BASE_URL } from './api.service'
 import { getProjeto } from './projeto.service'
+import { getTabela } from './tabela.service'
 import { getTerritorio } from './territorio.service'
+
+export async function getSolicitacaoRelatorios(idSolicitacao) {
+  if (isNaN(idSolicitacao)) {
+    throw Error('Solicitação inválida')
+  }
+
+  const solicitacao = await api.get(`/relatorios/solicitacao/${idSolicitacao}`)
+
+  const tabelas = await Promise.all([
+    ...solicitacao.relatorios.map((rel) => getTabela(rel.idTabelaEdata)),
+  ])
+
+  solicitacao.relatorios.forEach((rel) => {
+    rel.tabela = tabelas.find((t) => t.id === rel.idTabelaEdata)
+  })
+
+  return solicitacao
+}
 
 export async function buscarSolicitacoesRelatorios() {
   const solicitacoes = await api.get('/relatorios/solicitacao')
