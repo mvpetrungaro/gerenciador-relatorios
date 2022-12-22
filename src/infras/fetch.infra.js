@@ -5,11 +5,17 @@ export async function getJson(url) {
     credentials: 'include',
   })
 
-  if (!response.ok && response.status === 401) {
+  if (response.status === 401) {
     throw UnauthorizedError()
   }
 
-  return await response.json()
+  const body = await response.json()
+
+  if (!response.ok) {
+    throw Error(body.message)
+  }
+
+  return body
 }
 
 export async function getJsonWithCredentials(url, credentials) {
@@ -20,11 +26,17 @@ export async function getJsonWithCredentials(url, credentials) {
     credentials: 'include',
   })
 
-  if (!response.ok && response.status === 401) {
+  if (response.status === 401) {
     throw UnauthorizedError()
   }
 
-  return await response.json()
+  const body = await response.json()
+
+  if (!response.ok) {
+    throw Error(body.message)
+  }
+
+  return body
 }
 
 export async function postJson(url, data) {
@@ -37,11 +49,17 @@ export async function postJson(url, data) {
     body: JSON.stringify(data),
   })
 
-  if (!response.ok && response.status === 401) {
+  if (response.status === 401) {
     throw UnauthorizedError()
   }
 
-  return await response.json()
+  const body = await response.json()
+
+  if (!response.ok) {
+    throw Error(body.message)
+  }
+
+  return body
 }
 
 export async function getHtml(url) {

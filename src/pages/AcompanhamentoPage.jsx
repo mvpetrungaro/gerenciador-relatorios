@@ -7,6 +7,8 @@ import { ProgressSpinner } from 'primereact/progressspinner'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { api, API_BASE_URL, edata } from '../services/api.service'
+import { getProjeto } from '../services/projeto.service'
+import { getTerritorio } from '../services/territorio.service'
 import {
   getDownloadRelatorioURL,
   getDownloadSolicitacaoURL,
@@ -17,16 +19,14 @@ import {
   isSolicitacaoEmAndamento,
   reexecutarRelatorios,
 } from '../services/relatorio.service'
+import { ToastContext } from '../contexts/ToastContext'
 import { FormatoDado } from '../models/FormatoDado'
 import { TipoDado } from '../models/TipoDado'
 import { PosicaoTerritorio } from '../models/PosicaoTerritorio'
 import { StatusExecucao } from '../models/StatusExecucao'
 import Loading from '../components/Loading'
-import { ToastContext } from '../contexts/ToastContext'
-import { getProjeto } from '../services/projeto.service'
-import { getTerritorio } from '../services/territorio.service'
+import ErrorContent from '../components/error/ErrorContent'
 
-const getParamErrorMsg = (param) => `Falha ao carregar ${param}`
 const MSG_ERRO_STATUS_RELATORIO =
   'Falha ao atualizar status dos relatórios, talvez seja necessário recarregar a página'
 const MSG_ERRO_REEXECUCAO_RELATORIO =
@@ -240,9 +240,7 @@ export default function AcompanhamentoPage() {
   if (loading) {
     content = <Loading />
   } else if (!solicitacao) {
-    content = (
-      <div className="text-center">{getParamErrorMsg('os relatórios')}</div>
-    )
+    content = <ErrorContent />
   } else {
     content = (
       <div className="m-5">
@@ -486,5 +484,5 @@ export default function AcompanhamentoPage() {
     )
   }
 
-  return <div>{content}</div>
+  return <>{content}</>
 }

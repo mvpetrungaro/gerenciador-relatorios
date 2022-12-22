@@ -9,6 +9,7 @@ import {
 } from '../../services/tabela.service'
 import Loading from '../Loading'
 import { ToastContext } from '../../contexts/ToastContext'
+import ErrorContent from '../error/ErrorContent'
 
 export default function TabelasStep({ projeto, onTabelasSelect }) {
   const { showError } = useContext(ToastContext)
@@ -31,19 +32,6 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
     })()
   }, [projeto, showError])
 
-  const bodyVisualizarTabela = (tabela) => {
-    return (
-      <div className="text-center">
-        <Button
-          onClick={() => visualizarTabela(tabela)}
-          icon="pi pi-search"
-          className="p-button-rounded p-button-success"
-          aria-label="Search"
-        />
-      </div>
-    )
-  }
-
   async function visualizarTabela(tabela) {
     try {
       const tabelaHtml = await (await getArquivoTabela(tabela.arquivo)).text()
@@ -60,12 +48,14 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
   if (loading) {
     content = <Loading />
   } else if (!projeto) {
-    content = <div className="text-center">Projeto não encontrado</div>
-  } else if (!tabelas) {
-    content = <div className="text-center">Nenhuma tabela disponível</div>
+    content = <ErrorContent />
+  } else if (!tabelas?.length) {
+    content = (
+      <ErrorContent icon="pi-info-circle" message="Nenhuma tabela disponível" />
+    )
   } else {
     content = (
-      <>
+      <div>
         <div className="text-center">
           <h1>{projeto.nome}</h1>
           <h4>Selecione as tabelas que deseja carregar</h4>
@@ -77,7 +67,6 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
               selection={tabelasSelecionadas}
               onSelectionChange={(e) => setTabelasSelecionadas(e.value)}
               dataKey="id"
-              emptyMessage="Nenhuma tabela encontrada"
               responsiveLayout="scroll"
               className="col-12"
             >
@@ -87,7 +76,19 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
               ></Column>
               <Column field="nome" header="Nome"></Column>
               <Column field="titulo" header="Titulo"></Column>
-              <Column header="Visualizar" body={bodyVisualizarTabela}></Column>
+              <Column
+                header="Visualizar"
+                body={(tabela) => (
+                  <div className="text-center">
+                    <Button
+                      onClick={() => visualizarTabela(tabela)}
+                      icon="pi pi-search"
+                      className="p-button-rounded p-button-success"
+                      aria-label="Search"
+                    />
+                  </div>
+                )}
+              ></Column>
             </DataTable>
 
             <div className="col-12 text-right">
@@ -109,9 +110,9 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
         >
           <div dangerouslySetInnerHTML={tabelaVisualizada}></div>
         </Dialog>
-      </>
+      </div>
     )
   }
 
-  return <div>{content}</div>
+  return <>{content}</>
 }

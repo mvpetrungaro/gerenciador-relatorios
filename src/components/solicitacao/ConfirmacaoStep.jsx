@@ -2,9 +2,7 @@ import { Button } from 'primereact/button'
 import { FormatoDado } from '../../models/FormatoDado'
 import { PosicaoTerritorio } from '../../models/PosicaoTerritorio'
 import { TipoDado } from '../../models/TipoDado'
-
-const getParamErrorMsg = (param) =>
-  `Falha ao carregar ${param} dos passos anteriores`
+import ErrorContent from '../error/ErrorContent'
 
 export default function ConfirmacaoStep({
   projeto,
@@ -14,19 +12,11 @@ export default function ConfirmacaoStep({
 }) {
   let content = <></>
 
-  if (!projeto) {
-    content = <div className="text-center">{getParamErrorMsg('o projeto')}</div>
-  } else if (!tabelas) {
-    content = (
-      <div className="text-center">{getParamErrorMsg('as tabelas')}</div>
-    )
-  } else if (!filtros) {
-    content = (
-      <div className="text-center">{getParamErrorMsg('os filtros')}</div>
-    )
+  if (!projeto || !tabelas || !filtros) {
+    content = <ErrorContent />
   } else {
     content = (
-      <>
+      <div>
         <div className="text-center">
           <h1>Confirmar solicitação</h1>
           <h4>Confirme as informações abaixo</h4>
@@ -107,9 +97,9 @@ export default function ConfirmacaoStep({
             <Button onClick={onConfirm}>Confirmar</Button>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 
-  return <div>{content}</div>
+  return <>{content}</>
 }

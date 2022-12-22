@@ -3,6 +3,7 @@ import { Card } from 'primereact/card'
 import { getProjetosByPesquisa } from '../../services/projeto.service'
 import Loading from '../Loading'
 import { ToastContext } from '../../contexts/ToastContext'
+import ErrorContent from '../error/ErrorContent'
 
 export default function ProjetosStep({ pesquisa, onProjetoSelect }) {
   const { showError } = useContext(ToastContext)
@@ -28,12 +29,14 @@ export default function ProjetosStep({ pesquisa, onProjetoSelect }) {
   if (loading) {
     content = <Loading />
   } else if (!pesquisa) {
-    content = <div className="text-center">Pesquisa não encontrada</div>
-  } else if (!projetos) {
-    content = <div className="text-center">Nenhum projeto disponível</div>
+    content = <ErrorContent />
+  } else if (!projetos?.length) {
+    content = (
+      <ErrorContent icon="pi-info-circle" message="Nenhum projeto disponível" />
+    )
   } else {
     content = (
-      <>
+      <div>
         <div className="text-center">
           <h1>{pesquisa.nome}</h1>
           <h4>Selecione um projeto</h4>
@@ -51,9 +54,9 @@ export default function ProjetosStep({ pesquisa, onProjetoSelect }) {
             </button>
           ))}
         </div>
-      </>
+      </div>
     )
   }
 
-  return <div>{content}</div>
+  return <>{content}</>
 }

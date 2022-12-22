@@ -3,6 +3,7 @@ import { Card } from 'primereact/card'
 import { getPesquisas } from '../../services/pesquisa.service'
 import Loading from '../Loading'
 import { ToastContext } from '../../contexts/ToastContext'
+import ErrorContent from '../error/ErrorContent'
 
 export default function PesquisasStep({ onPesquisaSelect }) {
   const { showError } = useContext(ToastContext)
@@ -27,11 +28,16 @@ export default function PesquisasStep({ onPesquisaSelect }) {
 
   if (loading) {
     content = <Loading />
-  } else if (!pesquisas) {
-    content = <div className="text-center">Nenhuma pesquisa disponível</div>
+  } else if (!pesquisas?.length) {
+    content = (
+      <ErrorContent
+        icon="pi-info-circle"
+        message="Nenhuma pesquisa disponível"
+      />
+    )
   } else {
     content = (
-      <>
+      <div>
         <div className="text-center">
           <h4>Selecione uma pesquisa</h4>
         </div>
@@ -48,9 +54,9 @@ export default function PesquisasStep({ onPesquisaSelect }) {
             </button>
           ))}
         </div>
-      </>
+      </div>
     )
   }
 
-  return <div>{content}</div>
+  return <>{content}</>
 }

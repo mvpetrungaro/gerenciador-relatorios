@@ -13,6 +13,7 @@ import Loading from '../Loading'
 import FiltroTerritorial from './filtros/FiltroTerritorial'
 import FiltroTipoDado from './filtros/FiltroTipoDado'
 import FiltroFormatoDado from './filtros/FiltroFormatoDado'
+import ErrorContent from '../error/ErrorContent'
 
 export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
   const [loading, setLoading] = useState(true)
@@ -81,13 +82,11 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
 
   if (loading) {
     content = <Loading />
-  } else if (!pesquisa) {
-    content = <div className="text-center">Pesquisa não encontrada</div>
-  } else if (!tabelas) {
-    content = <div className="text-center">Tabelas não encontradas</div>
+  } else if (!pesquisa || !tabelas) {
+    content = <ErrorContent />
   } else {
     content = (
-      <>
+      <div>
         <div className="text-center">
           <h1>{tabelas.length} tabela(s) selecionada(s)</h1>
           <h4>Selecione os filtros da execução</h4>
@@ -185,9 +184,9 @@ export default function FiltrosStep({ pesquisa, tabelas, onFiltrosSelect }) {
             </Button>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 
-  return <div>{content}</div>
+  return <>{content}</>
 }
