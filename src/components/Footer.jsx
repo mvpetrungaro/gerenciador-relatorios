@@ -1,25 +1,33 @@
-import { Button } from 'primereact/button'
+const Website = ({ url, label, icon, className }) => (
+  <a href={url} aria-label={label} className="no-underline">
+    <div
+      className={`p-button p-button-icon-only p-button-rounded p-button-outlined ${className}`}
+    >
+      <i className={`pi ${icon}`}></i>
+    </div>
+  </a>
+)
 
 export default function Footer() {
   return (
     <footer className="flex justify-content-center align-items-center p-2 bg-ibge border-top-1 gap-3">
-      <Button
-        icon="pi pi-github"
-        onClick={() => window.open('https://github.com/mvpetrungaro/')}
-        className="p-button-rounded p-button-outlined text-white bg-black-alpha-90"
-        aria-label="Github"
+      <Website
+        url="https://github.com/mvpetrungaro/"
+        label="Github"
+        icon="pi-github"
+        className="text-white bg-black-alpha-90"
       />
-      <Button
-        icon="pi pi-linkedin"
-        onClick={() => window.open('https://linkedin.com/mvpetrungaro/')}
-        className="p-button-rounded p-button-outlined text-blue-700 bg-white-alpha-90"
-        aria-label="Linkedin"
+      <Website
+        url="https://linkedin.com/mvpetrungaro/"
+        label="Linkedin"
+        icon="pi-linkedin"
+        className="text-blue-700 bg-white-alpha-90"
       />
-      <Button
-        icon="pi pi-at"
-        onClick={() => window.open('mailto:marcos.petrungaro@gmail.com')}
-        className="p-button-rounded p-button-outlined text-white"
-        aria-label="Linkedin"
+      <Website
+        url="mailto:marcos.petrungaro@gmail.com"
+        label="Mail"
+        icon="pi-at"
+        className="text-white bg-transparent"
       />
     </footer>
   )

@@ -56,6 +56,7 @@ export default function HomePage() {
             }
             emptyMessage="Você ainda não fez solicitações, faça a sua primeira clicando no botão abaixo!"
             responsiveLayout="scroll"
+            rowHover
             className="text-left"
           >
             <Column

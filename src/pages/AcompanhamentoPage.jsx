@@ -98,7 +98,7 @@ export default function AcompanhamentoPage() {
 
   function onClickDownload(idRelatorio) {
     const downloadURL = getDownloadRelatorioURL(idRelatorio)
-    window.location = downloadURL
+    window.open(downloadURL)
   }
 
   async function onClickReexecucao(idRelatorio) {
@@ -119,7 +119,7 @@ export default function AcompanhamentoPage() {
 
   function onClickDownloadTotal() {
     const downloadURL = getDownloadSolicitacaoURL(solicitacao.id)
-    window.location = downloadURL
+    window.open(downloadURL)
   }
 
   async function onClickReexecucaoTotal() {
@@ -327,6 +327,7 @@ export default function AcompanhamentoPage() {
                 </div>
               }
               responsiveLayout="scroll"
+              rowHover
               className="text-left"
             >
               <Column field="tabela.nome" header="Relatório"></Column>

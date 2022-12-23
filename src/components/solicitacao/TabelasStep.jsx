@@ -68,6 +68,7 @@ export default function TabelasStep({ projeto, onTabelasSelect }) {
               onSelectionChange={(e) => setTabelasSelecionadas(e.value)}
               dataKey="id"
               responsiveLayout="scroll"
+              rowHover
               className="col-12"
             >
               <Column
