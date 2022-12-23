@@ -8,7 +8,7 @@ export default function Header({ theme, onThemeChange = () => {} }) {
   }
 
   return (
-    <header className="pl-5 grid grid-nogutter align-items-center p-2 pr-3 bg-ibge border-bottom-1">
+    <header className="pl-5 grid grid-nogutter align-items-center p-2 pr-3 bg-ibge border-bottom-1 gap-3">
       <div className="col">
         <Link to="/" className="no-underline w-fit block">
           <h1 className="m-0 text-white">Gerenciador de Relatórios</h1>
@@ -25,7 +25,7 @@ export default function Header({ theme, onThemeChange = () => {} }) {
         </div>
       )}
       {theme && (
-        <div className="col-fixed pl-2 flex justify-content-end">
+        <div className="col-fixed flex justify-content-end">
           <Button
             icon={`pi pi-${theme.icon}`}
             onClick={onThemeChange}

@@ -75,7 +75,15 @@ export default function AcompanhamentoPage() {
       dataExecucao,
       duracaoExecucao,
       mensagemErro,
+      idSolicitacao,
     } = statusRelatorio
+
+    // Se a solicitação sendo processada for outra, ignorar atualização em tela. O usuário
+    // pode ter feito uma solicitação, deixado em andamento e aberto a tela de acompanhamento
+    // de outra solicitação.
+    if (idSolicitacao !== solicitacao.id) {
+      return
+    }
 
     const idxRelatorio = solicitacao.relatorios.findIndex(
       (rel) => rel.id === idRelatorio
