@@ -8,7 +8,7 @@ const FormatoArquivo = {
     value: 'HTML',
   },
   XLSX: {
-    key: 'HTML',
+    key: 'XLSX',
     value: 'XLSX',
   },
 }
